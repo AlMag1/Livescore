@@ -566,7 +566,7 @@ class Homescreen extends Component {
   };
 
   componentDidMount() {
-    // this.getLeagues();
+    this.getLeagues();
   }
 
   static navigationOptions = {
@@ -588,28 +588,40 @@ class Homescreen extends Component {
   };
 
   renderFavoriteLeagues = () => {
-    return favoriteLeagues.map(league => {
-      return (
-        <TouchableWithoutFeedback
-          key={Math.random()}
-          onPress={() =>
-            this.props.navigation.navigate("FootballScores", {
-              id: league.league_id
-            })
-          }
-        >
-          <View style={styles.leaguesContainer}>
-            <Image style={styles.leagueImage} source={{ uri: league.logo }} />
-            <Text style={styles.innerLeagues}>{league.name}</Text>
-          </View>
-        </TouchableWithoutFeedback>
-      );
-    });
-    // console.log(favoriteLeagues);
+    return (
+      <View>
+        <Text style={styles.favoriteHeaderTitle}>Favorite Leagues</Text>
+        {favoriteLeagues.map(league => {
+          return (
+            <TouchableWithoutFeedback
+              key={Math.random()}
+              onPress={() =>
+                this.props.navigation.navigate("FootballScores", {
+                  id: league.league_id
+                })
+              }
+            >
+              <View style={styles.leaguesContainer}>
+                <View style={styles.imageContainer}>
+                  <Image
+                    style={styles.leagueImage}
+                    source={{ uri: league.logo }}
+                  />
+                </View>
+                <Text style={styles.innerLeagues}>
+                  <Text style={styles.bold}>{league.country}</Text>{" "}
+                  {league.name}
+                </Text>
+              </View>
+            </TouchableWithoutFeedback>
+          );
+        })}
+        <Text style={styles.favoriteHeaderTitle}>All Leagues</Text>
+      </View>
+    );
   };
 
   renderDummyLeagues = () => {
-    // <ScrollView style={styles.container}>
     return this.state.dummyLeagues.map(league => {
       return (
         <TouchableWithoutFeedback
@@ -622,54 +634,50 @@ class Homescreen extends Component {
         >
           <View style={styles.leaguesContainer}>
             <Image style={styles.leagueImage} source={{ uri: league.logo }} />
-            <Text style={styles.innerLeagues}>{league.name}</Text>
+            <Text style={styles.innerLeagues}></Text>
           </View>
         </TouchableWithoutFeedback>
       );
     });
-    // </ScrollView>
   };
 
-  // render() {
-  //   return (
-  //     <ScrollView style={styles.container}>
-  //       {this.state.leagues.length > 0 ? (
-  //         this.state.leagues.map(league => {
-  //           if (league.season_end >= this.state.today) {
-  //             return (
-  //               <TouchableWithoutFeedback
-  //                 key={league.league_id}
-  //                 onPress={() =>
-  //                   this.props.navigation.navigate("FootballScores", {
-  //                     id: league.league_id
-  //                   })
-  //                 }
-  //               >
-  //                 <View style={styles.leaguesContainer}>
-  //                   <Image
-  //                     style={styles.leagueImage}
-  //                     source={{ uri: league.logo }}
-  //                   />
-  //                   <Text style={styles.innerLeagues}>{league.name}</Text>
-  //                 </View>
-  //               </TouchableWithoutFeedback>
-  //             );
-  //           }
-  //         })
-  //       ) : (
-  //         <View>
-  //           <Text>Fetching Leagues</Text>
-  //         </View>
-  //       )}
-  //     </ScrollView>
-  //   );
-  // }
+  renderLeagues = () => {
+    return this.state.leagues.length > 0 ? (
+      this.state.leagues.map(league => {
+        if (league.season_end >= this.state.today) {
+          return (
+            <TouchableWithoutFeedback
+              key={league.league_id}
+              onPress={() =>
+                this.props.navigation.navigate("FootballScores", {
+                  id: league.league_id
+                })
+              }
+            >
+              <View style={styles.leaguesContainer}>
+                <Image
+                  style={styles.leagueImage}
+                  source={{ uri: league.logo }}
+                />
+                <Text style={styles.innerLeagues}>{league.name}</Text>
+              </View>
+            </TouchableWithoutFeedback>
+          );
+        }
+      })
+    ) : (
+      <View>
+        <Text>Fetching Leagues</Text>
+      </View>
+    );
+  };
 
   render() {
     return (
       <ScrollView style={styles.container}>
         {this.renderFavoriteLeagues()}
-        {this.renderDummyLeagues()}
+        {/* {this.renderDummyLeagues()} */}
+        {this.renderLeagues()}
       </ScrollView>
     );
   }
@@ -679,15 +687,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
+  favoriteHeaderTitle: {
+    backgroundColor: "rgb(250, 224, 152)",
+    textAlign: "center",
+    fontSize: 15,
+    // marginTop: 10,
+    fontWeight: "600"
+  },
   leaguesContainer: {
     borderBottomWidth: 1,
     borderColor: "rgb(207, 212, 209)",
-    marginBottom: 5,
-    marginTop: 5,
     flex: 1,
-    justifyContent: "space-between",
+    justifyContent: "center",
+    alignItems: "center",
     flexDirection: "row",
-    height: 70
+    height: 100
   },
   innerLeagues: {
     fontSize: 15,
@@ -700,12 +714,20 @@ const styles = StyleSheet.create({
     textAlign: "left"
   },
   leagueImage: {
-    width: 30,
-    height: 30,
+    width: 35,
+    height: 45,
     marginTop: "auto",
     marginBottom: "auto",
     marginLeft: "auto",
     marginRight: "auto"
+  },
+  imageContainer: {
+    // justifyContent: "center",
+    // alignItems: "center",
+    width: "20%"
+  },
+  bold: {
+    fontWeight: "bold"
   }
 });
 
