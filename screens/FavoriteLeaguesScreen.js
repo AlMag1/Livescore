@@ -17,7 +17,8 @@ class FavoriteLeaguesScreen extends Component {
             }}
           />
         </HeaderButtons>
-      )
+      ),
+      title: "Favorites"
     };
   };
 

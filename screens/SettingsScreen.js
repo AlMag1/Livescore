@@ -4,7 +4,7 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 import HeaderButton from "../components/HeaderButton";
 
-class ProfileScreen extends Component {
+class SettingsScreen extends Component {
   static navigationOptions = navData => {
     return {
       headerLeft: (
@@ -17,7 +17,8 @@ class ProfileScreen extends Component {
             }}
           />
         </HeaderButtons>
-      )
+      ),
+      title: "Settings"
     };
   };
 
@@ -30,4 +31,4 @@ class ProfileScreen extends Component {
   }
 }
 
-export default ProfileScreen;
+export default SettingsScreen;

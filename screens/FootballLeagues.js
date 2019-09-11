@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   TouchableWithoutFeedback,
+  TouchableOpacity,
   Image
 } from "react-native";
 import axios from "axios";
@@ -575,6 +576,15 @@ class FootballLeaguesScreen extends Component {
   static navigationOptions = navData => {
     return {
       title: "Football Leagues",
+      headerStyle: {
+        textAlign: "center",
+        backgroundColor: "rgb(77, 122, 201)"
+      },
+      headerTitleStyle: {
+        textAlign: "center",
+        flex: 1,
+        color: "rgb(250, 224, 152)"
+      },
       headerLeft: (
         <HeaderButtons HeaderButtonComponent={HeaderButton}>
           <Item
@@ -584,6 +594,11 @@ class FootballLeaguesScreen extends Component {
               navData.navigation.toggleDrawer();
             }}
           />
+        </HeaderButtons>
+      ),
+      headerRight: (
+        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+          <Item title="sidebar" iconName="ios-search" onPress={() => {}} />
         </HeaderButtons>
       )
     };
@@ -609,7 +624,7 @@ class FootballLeaguesScreen extends Component {
         <Text style={styles.favoriteHeaderTitle}>Favorite Leagues</Text>
         {favoriteLeagues.map(league => {
           return (
-            <TouchableWithoutFeedback
+            <TouchableOpacity
               key={Math.random()}
               onPress={() =>
                 this.props.navigation.navigate("FootballScores", {
@@ -625,11 +640,11 @@ class FootballLeaguesScreen extends Component {
                   />
                 </View>
                 <Text style={styles.innerLeagues}>
-                  <Text style={styles.bold}>{league.country}</Text>{" "}
+                  <Text style={styles.bold}>{league.country}:</Text>{" "}
                   {league.name}
                 </Text>
               </View>
-            </TouchableWithoutFeedback>
+            </TouchableOpacity>
           );
         })}
         <Text style={styles.favoriteHeaderTitle}>All Leagues</Text>
@@ -640,7 +655,7 @@ class FootballLeaguesScreen extends Component {
   renderDummyLeagues = () => {
     return this.state.dummyLeagues.map(league => {
       return (
-        <TouchableWithoutFeedback
+        <TouchableOpacity
           key={Math.random()}
           onPress={() =>
             this.props.navigation.navigate("FootballScores", {
@@ -652,7 +667,7 @@ class FootballLeaguesScreen extends Component {
             <Image style={styles.leagueImage} source={{ uri: league.logo }} />
             <Text style={styles.innerLeagues}></Text>
           </View>
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
       );
     });
   };
@@ -662,7 +677,7 @@ class FootballLeaguesScreen extends Component {
       this.state.leagues.map(league => {
         if (league.season_end >= this.state.today) {
           return (
-            <TouchableWithoutFeedback
+            <TouchableOpacity
               key={league.league_id}
               onPress={() =>
                 this.props.navigation.navigate("FootballScores", {
@@ -675,9 +690,12 @@ class FootballLeaguesScreen extends Component {
                   style={styles.leagueImage}
                   source={{ uri: league.logo }}
                 />
-                <Text style={styles.innerLeagues}>{league.name}</Text>
+                <Text style={styles.innerLeagues}>
+                  <Text style={styles.bold}>{league.country}:</Text>{" "}
+                  {league.name}
+                </Text>
               </View>
-            </TouchableWithoutFeedback>
+            </TouchableOpacity>
           );
         }
       })
@@ -705,10 +723,13 @@ const styles = StyleSheet.create({
   },
   favoriteHeaderTitle: {
     backgroundColor: "rgb(250, 224, 152)",
-    textAlign: "center",
-    fontSize: 15,
-    // marginTop: 10,
-    fontWeight: "600"
+    // textAlign: "center",
+    fontSize: 16,
+    fontWeight: "600",
+    height: 25,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
   },
   leaguesContainer: {
     borderBottomWidth: 1,

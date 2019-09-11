@@ -7,6 +7,7 @@ import FavoriteLeaguesScreen from "../screens/FavoriteLeaguesScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import MainTabNavigator from "./MainTabNavigator";
+import CustomDrawer from "../components/CustomDrawer";
 
 const ScoreNavigator = createStackNavigator({
   MainTabNavigator: {
@@ -19,22 +20,67 @@ const ScoreNavigator = createStackNavigator({
 });
 
 const FavoritesNavigator = createStackNavigator({
-  Favorites: FavoriteLeaguesScreen
+  Favorites: {
+    screen: FavoriteLeaguesScreen,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: "rgb(77, 122, 201)"
+      },
+      headerTitleStyle: {
+        color: "rgb(250, 224, 152)"
+      }
+    }
+  }
 });
 
 const SettingsNavigator = createStackNavigator({
-  Settings: SettingsScreen
+  Settings: {
+    screen: SettingsScreen,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: "rgb(77, 122, 201)"
+      },
+      headerTitleStyle: {
+        color: "rgb(250, 224, 152)"
+      }
+    }
+  }
 });
 
 const ProfileNavigator = createStackNavigator({
-  Profile: ProfileScreen
+  Profile: {
+    screen: ProfileScreen,
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: "rgb(77, 122, 201)"
+      },
+      headerTitleStyle: {
+        color: "rgb(250, 224, 152)"
+      }
+    }
+  }
 });
 
-const DrawerNavigation = createDrawerNavigator({
-  Home: ScoreNavigator,
-  Favorites: FavoritesNavigator,
-  Settings: SettingsNavigator,
-  Profile: ProfileNavigator
-});
+const DrawerNavigation = createDrawerNavigator(
+  {
+    Home: ScoreNavigator,
+    Favorites: FavoritesNavigator,
+    Settings: SettingsNavigator,
+    Profile: ProfileNavigator
+  },
+  {
+    contentOptions: {
+      // add your styling here
+      activeTintColor: "rgb(77, 122, 201)"
+      // itemsContainerStyle: {
+      //   marginVertical: 0
+      // },
+      // iconContainerStyle: {
+      //   opacity: 1
+      // }
+    }
+    // drawerBackgroundColor: "rgb(77, 122, 201)"
+  }
+);
 
 export default createAppContainer(DrawerNavigation);

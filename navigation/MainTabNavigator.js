@@ -7,7 +7,6 @@ import { createStackNavigator } from "react-navigation-stack";
 import TabBarIcon from "../components/TabBarIcon";
 import FootballLeagues from "../screens/FootballLeagues";
 import BasketballScreen from "../screens/BasketballScreen";
-import FavoriteLeaguesScreen from "../screens/FavoriteLeaguesScreen";
 
 const config = Platform.select({
   web: { headerMode: "screen" },
@@ -53,23 +52,6 @@ BasketStack.navigationOptions = {
     />
   )
 };
-
-// const FavoritesStack = createStackNavigator(
-//   {
-//     Favorites: FavoriteLeaguesScreen
-//   },
-//   config
-// );
-
-// FavoritesStack.navigationOptions = {
-//   tabBarLabel: "Favorites"
-//   // tabBarIcon: ({ focused }) => (
-//   //   <TabBarIcon
-//   //     focused={focused}
-//   //     name={Platform.OS === "ios" ? "ios-basketball" : "md-basketball"}
-//   //   />
-//   // )
-// };
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack,

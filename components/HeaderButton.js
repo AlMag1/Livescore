@@ -9,7 +9,7 @@ class CustomHeaderButton extends Component {
         {...this.props}
         IconComponent={Ionicons}
         iconSize={23}
-        color="black"
+        color="rgb(250, 224, 152)"
       />
     );
   }

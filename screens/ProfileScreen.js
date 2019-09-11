@@ -17,7 +17,8 @@ class ProfileScreen extends Component {
             }}
           />
         </HeaderButtons>
-      )
+      ),
+      title: "Profile"
     };
   };
 
