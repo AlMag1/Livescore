@@ -584,7 +584,7 @@ class Homescreen extends Component {
       .then(res => {
         this.setState({ leagues: res.data.api.leagues });
       })
-      .catch();
+      .catch(err => console.log(err));
   };
 
   renderFavoriteLeagues = () => {
