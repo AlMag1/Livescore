@@ -4,7 +4,7 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 import HeaderButton from "../components/HeaderButton";
 
-class ProfileScreen extends Component {
+class FavoriteLeaguesScreen extends Component {
   static navigationOptions = navData => {
     return {
       headerLeft: (
@@ -24,10 +24,10 @@ class ProfileScreen extends Component {
   render() {
     return (
       <View>
-        <Text>Settings Screen</Text>
+        <Text>Favorites FavoriteLeaguesScreen</Text>
       </View>
     );
   }
 }
 
-export default ProfileScreen;
+export default FavoriteLeaguesScreen;

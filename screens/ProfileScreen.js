@@ -24,7 +24,7 @@ class ProfileScreen extends Component {
   render() {
     return (
       <View>
-        <Text>Settings Screen</Text>
+        <Text>Profile Screen</Text>
       </View>
     );
   }

@@ -9,9 +9,12 @@ import {
 } from "react-native";
 import axios from "axios";
 import moment from "moment";
-import favoriteLeagues from "../constants/FavoriteLeagues";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
-class Homescreen extends Component {
+import favoriteLeagues from "../constants/FavoriteLeagues";
+import HeaderButton from "../components/HeaderButton";
+
+class FootballLeaguesScreen extends Component {
   state = {
     leagues: [],
     today: moment().format("YYYY-MM-DD"),
@@ -566,11 +569,24 @@ class Homescreen extends Component {
   };
 
   componentDidMount() {
-    this.getLeagues();
+    // this.getLeagues();
   }
 
-  static navigationOptions = {
-    title: "Football Leagues"
+  static navigationOptions = navData => {
+    return {
+      title: "Football Leagues",
+      headerLeft: (
+        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+          <Item
+            title="sidebar"
+            iconName="md-menu"
+            onPress={() => {
+              navData.navigation.toggleDrawer();
+            }}
+          />
+        </HeaderButtons>
+      )
+    };
   };
 
   getLeagues = () => {
@@ -731,4 +747,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Homescreen;
+export default FootballLeaguesScreen;

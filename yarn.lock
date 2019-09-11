@@ -5710,6 +5710,18 @@ react-native-web@^0.11.4:
     xmldoc "^0.4.0"
     yargs "^9.0.0"
 
+react-navigation-drawer@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/react-navigation-drawer/-/react-navigation-drawer-2.1.1.tgz#455bad69e25e77b7d5a0564f49f89117355df445"
+  integrity sha512-mKJ0GAPPo5JtBuUtTIGDOzGtTU3eswFmDmdkYgLAZwLNiDI4v5gk0SpJSgBHeI75B2H2IKlQq7ahZAvhgZkrtw==
+
+react-navigation-header-buttons@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/react-navigation-header-buttons/-/react-navigation-header-buttons-3.0.2.tgz#f9ca750a15b4aad0fcf7ad5013b78b2ca0c7d14c"
+  integrity sha512-dzcJnr5uH76Ym8NhIM39zBxrXPgyJ7MLRRt/D5cuubE5w6uYZ5Hsep/QD7AiFlIV1cJrY3iCU0PXyjx33ZhoGA==
+  dependencies:
+    react-native-platform-touchable "^1.1.1"
+
 react-navigation-stack@^1.5.4:
   version "1.5.4"
   resolved "https://registry.yarnpkg.com/react-navigation-stack/-/react-navigation-stack-1.5.4.tgz#ec3f8468873b86aa2b344430dfc1d7e9801e39bd"
