@@ -8,6 +8,7 @@ import SettingsScreen from "../screens/SettingsScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import MainTabNavigator from "./MainTabNavigator";
 import CustomDrawer from "../components/CustomDrawer";
+import MatchDetails from "../screens/MatchDetails";
 
 const ScoreNavigator = createStackNavigator({
   MainTabNavigator: {
@@ -16,7 +17,36 @@ const ScoreNavigator = createStackNavigator({
       header: null
     }
   },
-  FootballScores
+  FootballScores: {
+    screen: FootballScores,
+    navigationOptions: {
+      title: "Matches",
+      headerStyle: {
+        textAlign: "center",
+        backgroundColor: "rgb(77, 122, 201)"
+      },
+      headerTitleStyle: {
+        textAlign: "left",
+        flex: 1,
+        color: "rgb(250, 224, 152)"
+      }
+    }
+  },
+  MatchDetails: {
+    screen: MatchDetails,
+    navigationOptions: {
+      title: "Match Details",
+      headerStyle: {
+        textAlign: "center",
+        backgroundColor: "rgb(77, 122, 201)"
+      },
+      headerTitleStyle: {
+        textAlign: "left",
+        flex: 1,
+        color: "rgb(250, 224, 152)"
+      }
+    }
+  }
 });
 
 const FavoritesNavigator = createStackNavigator({

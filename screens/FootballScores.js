@@ -12,12 +12,18 @@ import {
 } from "react-native";
 import axios from "axios";
 import moment from "moment";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import { HeaderBackButton } from "react-navigation";
+
+import HeaderButton from "../components/HeaderButton";
 
 class FootballScores extends Component {
   state = {
     fixtures: [],
     leagues: [],
     leagueData: [],
+    leagueName: "",
+    country: "",
     date: moment().format("YYYY-MM-DD"),
     dummyFixtures: [
       {
@@ -631,13 +637,12 @@ class FootballScores extends Component {
     ]
   };
 
-  static navigationOptions = {
-    title: "Football Scores"
-  };
-
   componentDidMount() {
     const { navigation } = this.props;
     const leagueId = navigation.getParam("id");
+    const leagueName = navigation.getParam("leagueName");
+    const country = navigation.getParam("country");
+    this.setState({ leagueName, country });
     // this.getFixtures(leagueId);
   }
 
@@ -666,7 +671,13 @@ class FootballScores extends Component {
           this.state.dummyFixtures.map(match => (
             <TouchableWithoutFeedback
               key={match.fixture_id}
-              onPress={this.toggleModal}
+              onPress={() =>
+                this.props.navigation.navigate("MatchDetails", {
+                  matchId: match.fixture_id,
+                  leagueName: this.state.leagueName,
+                  country: this.state.country
+                })
+              }
             >
               <View style={styles.matchContainer}>
                 <View style={styles.imagesContainer}>

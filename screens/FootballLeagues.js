@@ -575,7 +575,7 @@ class FootballLeaguesScreen extends Component {
 
   static navigationOptions = navData => {
     return {
-      title: "Football Leagues",
+      title: "Football",
       headerStyle: {
         textAlign: "center",
         backgroundColor: "rgb(77, 122, 201)"
@@ -583,7 +583,8 @@ class FootballLeaguesScreen extends Component {
       headerTitleStyle: {
         textAlign: "center",
         flex: 1,
-        color: "rgb(250, 224, 152)"
+        color: "rgb(250, 224, 152)",
+        fontSize: 23
       },
       headerLeft: (
         <HeaderButtons HeaderButtonComponent={HeaderButton}>
@@ -628,7 +629,9 @@ class FootballLeaguesScreen extends Component {
               key={Math.random()}
               onPress={() =>
                 this.props.navigation.navigate("FootballScores", {
-                  id: league.league_id
+                  id: league.league_id,
+                  leagueName: league.name,
+                  country: league.country
                 })
               }
             >
@@ -659,7 +662,9 @@ class FootballLeaguesScreen extends Component {
           key={Math.random()}
           onPress={() =>
             this.props.navigation.navigate("FootballScores", {
-              id: league.league_id
+              id: league.league_id,
+              leagueName: league.name,
+              country: league.country
             })
           }
         >
@@ -681,7 +686,9 @@ class FootballLeaguesScreen extends Component {
               key={league.league_id}
               onPress={() =>
                 this.props.navigation.navigate("FootballScores", {
-                  id: league.league_id
+                  id: league.league_id,
+                  leagueName: league.name,
+                  country: league.country
                 })
               }
             >
