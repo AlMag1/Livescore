@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import axios from "axios";
 import moment from "moment";
+import { Ionicons } from "@expo/vector-icons";
 
 class MatchDetails extends Component {
   state = {
@@ -1095,60 +1096,107 @@ class MatchDetails extends Component {
       .then(res => this.setState({ matchDetails: res.data.fixtures }))
       .catch(error => console.log(error));
   };
+
+  renderEvents = () => {
+    const { team_name } = this.state.dummyMatch.homeTeam;
+    return this.state.dummyMatch.events.map(event => {
+      return (
+        <View style={{ marginLeft: 10, marginRight: 10 }} key={Math.random()}>
+          {event.type === "Goal" ? (
+            <Text
+              style={
+                team_name === event.teamName
+                  ? styles.eventLeft
+                  : styles.eventRight
+              }
+            >
+              {team_name === event.teamName ? (
+                <Text>
+                  <Ionicons name="ios-football" size={15} />
+                  <Text>
+                    {"  "}
+                    {event.player}
+                  </Text>
+                </Text>
+              ) : (
+                <Text>
+                  <Text>
+                    {event.player}
+                    {"  "}
+                  </Text>
+                  <Ionicons name="ios-football" size={15} />
+                </Text>
+              )}
+            </Text>
+          ) : null}
+        </View>
+      );
+    });
+  };
+
   render() {
     // console.log(this.state.matchDetails);
     return (
       <View style={styles.container}>
-        <View style={styles.leagueNameContainer}>
-          <Text style={styles.leagueName}>
-            {this.state.country}:{" "}
-            <Text style={{ fontWeight: "600" }}>{this.state.leagueName}</Text>
-          </Text>
-        </View>
-        <View style={styles.dateContainer}>
-          <Text style={styles.date}>
-            {moment(this.state.dummyMatch.event_date).format("DD.MMM.YYYY")}
-          </Text>
-          <Text style={styles.date}>
-            {moment(this.state.dummyMatch.event_date).format("HH:mm")}
-          </Text>
-        </View>
-        <View style={styles.logosAndScoreContainer}>
-          <View style={styles.teamLogos}>
-            <Image
-              style={{
-                width: 50,
-                height: 50
-              }}
-              source={{ uri: this.state.dummyMatch.homeTeam.logo }}
-            />
-            <Text style={styles.teamNames}>
-              {this.state.dummyMatch.homeTeam.team_name}
+        <View style={styles.innerTopContainer}>
+          <View style={styles.leagueNameContainer}>
+            <Text style={styles.leagueName}>
+              {this.state.country}:{" "}
+              <Text style={{ fontWeight: "600" }}>{this.state.leagueName}</Text>
             </Text>
           </View>
-          <View style={styles.score}>
-            <Text
-              style={{ fontSize: 20, fontWeight: "600", textAlign: "center" }}
-            >
-              {this.state.dummyMatch.goalsHomeTeam} -{" "}
-              {this.state.dummyMatch.goalsAwayTeam}
+          <View style={styles.dateContainer}>
+            <Text style={styles.date}>
+              {moment(this.state.dummyMatch.event_date).format("DD.MMM.YYYY")}
             </Text>
-            <Text style={{ fontSize: 10, textAlign: "center" }}>
-              {this.state.dummyMatch.status === "Match Finished"
-                ? "Final"
-                : this.state.dummyMatch.elapsed}
+            <Text style={styles.date}>-</Text>
+            <Text style={styles.date}>
+              {moment(this.state.dummyMatch.event_date).format("HH:mm")}
             </Text>
           </View>
-          <View style={styles.teamLogos}>
-            <Image
-              style={{ width: 50, height: 50 }}
-              source={{ uri: this.state.dummyMatch.awayTeam.logo }}
-            />
-            <Text style={styles.teamNames}>
-              {this.state.dummyMatch.awayTeam.team_name}
+          <View style={styles.logosAndScoreContainer}>
+            <View style={styles.teamLogos}>
+              <Image
+                style={{
+                  width: 50,
+                  height: 50
+                }}
+                source={{ uri: this.state.dummyMatch.homeTeam.logo }}
+              />
+              <Text style={styles.teamNames}>
+                {this.state.dummyMatch.homeTeam.team_name}
+              </Text>
+            </View>
+            <View style={styles.score}>
+              <Text
+                style={{ fontSize: 20, fontWeight: "600", textAlign: "center" }}
+              >
+                {this.state.dummyMatch.goalsHomeTeam} -{" "}
+                {this.state.dummyMatch.goalsAwayTeam}
+              </Text>
+              <Text style={{ fontSize: 10, textAlign: "center" }}>
+                {this.state.dummyMatch.status === "Match Finished"
+                  ? "Final"
+                  : this.state.dummyMatch.elapsed}
+              </Text>
+            </View>
+            <View style={styles.teamLogos}>
+              <Image
+                style={{ width: 50, height: 50 }}
+                source={{ uri: this.state.dummyMatch.awayTeam.logo }}
+              />
+              <Text style={styles.teamNames}>
+                {this.state.dummyMatch.awayTeam.team_name}
+              </Text>
+            </View>
+          </View>
+          <View style={styles.firstHalfContainer}>
+            <Text style={styles.firstHalf}>
+              1st Half: {this.state.dummyMatch.score.halftime}
             </Text>
           </View>
         </View>
+        {this.renderEvents()}
       </View>
     );
   }
@@ -1157,6 +1205,9 @@ class MatchDetails extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  innerTopContainer: {
+    backgroundColor: "rgb(237, 241, 242)"
   },
   leagueNameContainer: {
     borderBottomWidth: 1,
@@ -1167,19 +1218,17 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   leagueName: {
-    textTransform: "uppercase",
+    textTransform: "capitalize",
     textAlign: "center"
   },
   dateContainer: {
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    marginLeft: "auto",
-    marginRight: "auto"
+    flexDirection: "row",
+    justifyContent: "center"
   },
   date: {
-    // textAlign: "center",
-    fontSize: 10
+    textAlign: "center",
+    fontSize: 10,
+    minWidth: 100
   },
   logosAndScoreContainer: {
     flexDirection: "row",
@@ -1192,17 +1241,40 @@ const styles = StyleSheet.create({
   score: {
     marginTop: "auto",
     marginBottom: "auto",
-    flexDirection: "column"
+    flexDirection: "column",
+    minWidth: 100
   },
   teamLogos: {
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    minWidth: 100
   },
   teamNames: {
     fontWeight: "600",
     textAlign: "center",
-    marginTop: 10
+    marginTop: 10,
+    maxWidth: 100
+  },
+  firstHalfContainer: {
+    backgroundColor: "rgb(237, 241, 242)",
+    marginTop: 10,
+    borderBottomColor: "rgb(207, 212, 209)",
+    borderBottomWidth: 1
+  },
+  firstHalf: {
+    textAlign: "center",
+    marginBottom: 10
+  },
+  eventLeft: {
+    textAlign: "left",
+    marginTop: 10,
+    marginBottom: 5
+  },
+  eventRight: {
+    textAlign: "right",
+    marginTop: 10,
+    marginBottom: 5
   }
 });
 
