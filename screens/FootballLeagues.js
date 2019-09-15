@@ -14,6 +14,7 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 import favoriteLeagues from "../constants/FavoriteLeagues";
 import HeaderButton from "../components/HeaderButton";
+import { agntKey, basicKey } from "../constants/apiKeys";
 
 class FootballLeaguesScreen extends Component {
   state = {
@@ -610,7 +611,7 @@ class FootballLeaguesScreen extends Component {
       .get(`https://api-football-v1.p.rapidapi.com/v2/leagues`, {
         headers: {
           "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
-          "x-rapidapi-key": "8a07e143e1mshf90f5978f1b3290p152664jsn045c445dd91c"
+          "x-rapidapi-key": agntKey
         }
       })
       .then(res => {

@@ -2,1083 +2,1907 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import axios from "axios";
 import moment from "moment";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, FontAwesome } from "@expo/vector-icons";
+import { agntKey, basicKey } from "../constants/apiKeys";
 
 class MatchDetails extends Component {
   state = {
-    matchDetails: {},
+    matchDetails: [],
     leagueName: "",
     country: "",
     matchId: 0,
-    dummyMatch: {
-      fixture_id: 443,
-      league_id: 2,
-      event_date: "2019-05-12T14:00:00+00:00",
-      event_timestamp: 1557669600,
-      firstHalfStart: 1557669600,
-      secondHalfStart: 1557673200,
-      round: "Regular Season - 38",
-      status: "Match Finished",
-      statusShort: "FT",
-      elapsed: 90,
-      venue: "Tottenham Hotspur Stadium",
-      referee: null,
-      homeTeam: {
-        team_id: 47,
-        team_name: "Tottenham",
-        logo: "https://media.api-football.com/teams/47.png"
-      },
-      awayTeam: {
-        team_id: 45,
-        team_name: "Everton",
-        logo: "https://media.api-football.com/teams/45.png"
-      },
-      goalsHomeTeam: 2,
-      goalsAwayTeam: 2,
-      score: {
-        halftime: "1-0",
-        fulltime: "2-2",
-        extratime: null,
-        penalty: null
-      },
-      events: [
-        {
-          elapsed: 3,
-          team_id: 47,
-          teamName: "Tottenham",
-          player_id: 175,
-          player: "Eric Dier",
-          type: "Goal",
-          detail: "Normal Goal"
+    dummyMatch: [
+      {
+        fixture_id: 214055,
+        league_id: 775,
+        event_date: "2019-09-15T14:00:00+00:00",
+        event_timestamp: 1568556000,
+        firstHalfStart: 1568556000,
+        secondHalfStart: 1568559600,
+        round: "Regular Season - 4",
+        status: "Second Half",
+        statusShort: "2H",
+        elapsed: 46,
+        venue: "Abanca-Balaídos",
+        referee: null,
+        homeTeam: {
+          team_id: 538,
+          team_name: "Celta Vigo",
+          logo: "https://media.api-football.com/teams/538.png"
         },
-        {
-          elapsed: 46,
-          team_id: 47,
-          teamName: "Tottenham",
-          player_id: 172,
-          player: "Dele Alli",
-          type: "subst",
-          detail: "Victor Wanyama"
+        awayTeam: {
+          team_id: 715,
+          team_name: "Granada CF",
+          logo: "https://media.api-football.com/teams/715.png"
         },
-        {
-          elapsed: 65,
-          team_id: 45,
-          teamName: "Everton",
-          player_id: 2990,
-          player: "Idrissa Gueye",
-          type: "subst",
-          detail: "André Gomes"
+        goalsHomeTeam: 0,
+        goalsAwayTeam: 1,
+        score: {
+          halftime: "0-1",
+          fulltime: null,
+          extratime: null,
+          penalty: null
         },
-        {
-          elapsed: 65,
-          team_id: 45,
-          teamName: "Everton",
-          player_id: 18761,
-          player: "Bernard",
-          type: "subst",
-          detail: "Ademola Lookman"
+        events: [
+          {
+            elapsed: 11,
+            team_id: 538,
+            teamName: "Celta Vigo",
+            player_id: 47080,
+            player: "Jorge",
+            type: "Card",
+            detail: "Red Card"
+          },
+          {
+            elapsed: 15,
+            team_id: 538,
+            teamName: "Celta Vigo",
+            player_id: 2870,
+            player: "N. Araujo",
+            type: "subst",
+            detail: "B. Mendez"
+          },
+          {
+            elapsed: 19,
+            team_id: 715,
+            teamName: "Granada CF",
+            player_id: 46683,
+            player: "G. Sanchez",
+            type: "Card",
+            detail: "Yellow Card"
+          },
+          {
+            elapsed: 29,
+            team_id: 538,
+            teamName: "Celta Vigo",
+            player_id: 47435,
+            player: "F. Beltran",
+            type: "Card",
+            detail: "Red Card"
+          },
+          {
+            elapsed: 33,
+            team_id: 715,
+            teamName: "Granada CF",
+            player_id: 46683,
+            player: "G. Sanchez",
+            type: "Goal",
+            detail: "Normal Goal"
+          },
+          {
+            elapsed: 39,
+            team_id: 538,
+            teamName: "Celta Vigo",
+            player_id: 934,
+            player: "S. Mina",
+            type: "Card",
+            detail: "Yellow Card"
+          },
+          {
+            elapsed: 44,
+            team_id: 715,
+            teamName: "Granada CF",
+            player_id: 46677,
+            player: "V. Diaz",
+            type: "Card",
+            detail: "Yellow Card"
+          },
+          {
+            elapsed: 45,
+            team_id: 538,
+            teamName: "Celta Vigo",
+            player_id: 1461,
+            player: "D. Suarez",
+            type: "Card",
+            detail: "Yellow Card"
+          },
+          {
+            elapsed: 45,
+            team_id: 715,
+            teamName: "Granada CF",
+            player_id: 46683,
+            player: "G. Sanchez",
+            type: "Goal",
+            detail: "Normal Goal"
+          },
+          // {
+          //   elapsed: 40,
+          //   team_id: 715,
+          //   teamName: "Celta Vigo",
+          //   player_id: 46683,
+          //   player: "Aris Player",
+          //   type: "Goal",
+          //   detail: "Normal Goal"
+          // },
+          // {
+          //   elapsed: 23,
+          //   team_id: 715,
+          //   teamName: "Granada CF",
+          //   player_id: 46683,
+          //   player: "G. Sanchez",
+          //   type: "Goal",
+          //   detail: "Normal Goal"
+          // },
+          // {
+          //   elapsed: 39,
+          //   team_id: 715,
+          //   teamName: "Celta Vigo",
+          //   player_id: 46683,
+          //   player: "Lalakis lalakiou",
+          //   type: "Goal",
+          //   detail: "Normal Goal"
+          // },
+          // {
+          //   elapsed: 47,
+          //   team_id: 715,
+          //   teamName: "Granada CF",
+          //   player_id: 46683,
+          //   player: "Djibril Cisse",
+          //   type: "Goal",
+          //   detail: "Normal Goal"
+          // },
+          {
+            elapsed: 45,
+            team_id: 715,
+            teamName: "Granada CF",
+            player_id: 46808,
+            player: "C. Fernandez",
+            type: "subst",
+            detail: "F. Vico"
+          }
+        ],
+        lineups: {
+          "Celta Vigo": {
+            formation: "4-4-2",
+            startXI: [
+              {
+                team_id: 538,
+                player_id: 47426,
+                player: "Rubén Blanco",
+                number: 13,
+                pos: "G"
+              },
+              {
+                team_id: 538,
+                player_id: 47432,
+                player: "Hugo Mallo",
+                number: 2,
+                pos: "D"
+              },
+              {
+                team_id: 538,
+                player_id: 1926,
+                player: "Joseph Aidoo",
+                number: 18,
+                pos: "D"
+              },
+              {
+                team_id: 538,
+                player_id: 47080,
+                player: "Jorge Sáenz",
+                number: 16,
+                pos: "D"
+              },
+              {
+                team_id: 538,
+                player_id: 47433,
+                player: "Lucas Olaza",
+                number: 15,
+                pos: "D"
+              },
+              {
+                team_id: 538,
+                player_id: 47440,
+                player: "Brais Méndez",
+                number: 23,
+                pos: "M"
+              },
+              {
+                team_id: 538,
+                player_id: 47435,
+                player: "Fran Beltran",
+                number: 8,
+                pos: "M"
+              },
+              {
+                team_id: 538,
+                player_id: 47439,
+                player: "Stanislav Lobotka",
+                number: 14,
+                pos: "M"
+              },
+              {
+                team_id: 538,
+                player_id: 1461,
+                player: "Denis Suárez",
+                number: 6,
+                pos: "M"
+              },
+              {
+                team_id: 538,
+                player_id: 47445,
+                player: "Iago Aspas",
+                number: 10,
+                pos: "F"
+              },
+              {
+                team_id: 538,
+                player_id: 934,
+                player: "Santi Mina",
+                number: 22,
+                pos: "F"
+              }
+            ],
+            substitutes: [
+              {
+                team_id: 538,
+                player_id: 47425,
+                player: "Sergio Álvarez",
+                number: 1,
+                pos: "G"
+              },
+              {
+                team_id: 538,
+                player_id: 47434,
+                player: "Kevin Vazquez",
+                number: 20,
+                pos: "D"
+              },
+              {
+                team_id: 538,
+                player_id: 2870,
+                player: "Néstor Araujo",
+                number: 4,
+                pos: "D"
+              },
+              {
+                team_id: 538,
+                player_id: 660,
+                player: "Pape Cheikh",
+                number: 24,
+                pos: "M"
+              },
+              {
+                team_id: 538,
+                player_id: 128985,
+                player: "Iker Losada",
+                number: 36,
+                pos: "F"
+              },
+              {
+                team_id: 538,
+                player_id: 51616,
+                player: "Gabriel Fernández",
+                number: 19,
+                pos: "F"
+              },
+              {
+                team_id: 538,
+                player_id: 47447,
+                player: "Pione Sisto",
+                number: 11,
+                pos: "F"
+              }
+            ],
+            coach: "Fran Escribá"
+          },
+          "Granada CF": {
+            formation: "4-2-3-1",
+            startXI: [
+              {
+                team_id: 715,
+                player_id: 46672,
+                player: "Rui Silva",
+                number: 1,
+                pos: "G"
+              },
+              {
+                team_id: 715,
+                player_id: 46677,
+                player: "Víctor Díaz",
+                number: 16,
+                pos: "D"
+              },
+              {
+                team_id: 715,
+                player_id: 46795,
+                player: "Domingos Duarte",
+                number: 22,
+                pos: "D"
+              },
+              {
+                team_id: 715,
+                player_id: 46683,
+                player: "Germán Sánchez",
+                number: 6,
+                pos: "D"
+              },
+              {
+                team_id: 715,
+                player_id: 46679,
+                player: "Quini",
+                number: 17,
+                pos: "D"
+              },
+              {
+                team_id: 715,
+                player_id: 2449,
+                player: "Yangel Herrera",
+                number: 21,
+                pos: "M"
+              },
+              {
+                team_id: 715,
+                player_id: 46687,
+                player: "Ángel Montoro",
+                number: 19,
+                pos: "M"
+              },
+              {
+                team_id: 715,
+                player_id: 46689,
+                player: "Antonio Puertas",
+                number: 10,
+                pos: "M"
+              },
+              {
+                team_id: 715,
+                player_id: 46693,
+                player: "Fede Vico",
+                number: 14,
+                pos: "M"
+              },
+              {
+                team_id: 715,
+                player_id: 2459,
+                player: "Darwin Machís",
+                number: 23,
+                pos: "M"
+              },
+              {
+                team_id: 715,
+                player_id: 1375,
+                player: "Roberto Soldado",
+                number: 9,
+                pos: "F"
+              }
+            ],
+            substitutes: [
+              {
+                team_id: 715,
+                player_id: 46673,
+                player: "Aarón Escandell",
+                number: 13,
+                pos: "G"
+              },
+              {
+                team_id: 715,
+                player_id: 46680,
+                player: "José Antonio Martinez Gil",
+                number: 5,
+                pos: "D"
+              },
+              {
+                team_id: 715,
+                player_id: 2051,
+                player: "Maxime Gonalons",
+                number: 4,
+                pos: "M"
+              },
+              {
+                team_id: 715,
+                player_id: 46692,
+                player: "Álvaro Vadillo",
+                number: 7,
+                pos: "M"
+              },
+              {
+                team_id: 715,
+                player_id: 46685,
+                player: "Ramon Azeez",
+                number: 12,
+                pos: "M"
+              },
+              {
+                team_id: 715,
+                player_id: 46808,
+                player: "Carlos Fernández Luna",
+                number: 24,
+                pos: "F"
+              },
+              {
+                team_id: 715,
+                player_id: 46695,
+                player: "Adrián Ramos",
+                number: 20,
+                pos: "F"
+              }
+            ],
+            coach: "Diego Martínez"
+          }
         },
-        {
-          elapsed: 69,
-          team_id: 45,
-          teamName: "Everton",
-          player_id: 18769,
-          player: "Theo Walcott",
-          type: "Goal",
-          detail: "Normal Goal"
+        statistics: {
+          "Shots on Goal": {
+            home: "0",
+            away: "2"
+          },
+          "Shots off Goal": {
+            home: "2",
+            away: "3"
+          },
+          "Total Shots": {
+            home: "2",
+            away: "6"
+          },
+          "Blocked Shots": {
+            home: "0",
+            away: "1"
+          },
+          "Shots insidebox": {
+            home: "1",
+            away: "3"
+          },
+          "Shots outsidebox": {
+            home: "1",
+            away: "3"
+          },
+          Fouls: {
+            home: "6",
+            away: "8"
+          },
+          "Corner Kicks": {
+            home: "1",
+            away: "3"
+          },
+          Offsides: {
+            home: "1",
+            away: "1"
+          },
+          "Ball Possession": {
+            home: "32%",
+            away: "68%"
+          },
+          "Yellow Cards": {
+            home: "2",
+            away: "2"
+          },
+          "Red Cards": {
+            home: "2",
+            away: "0"
+          },
+          "Goalkeeper Saves": {
+            home: "1",
+            away: "0"
+          },
+          "Total passes": {
+            home: "104",
+            away: "208"
+          },
+          "Passes accurate": {
+            home: "73",
+            away: "181"
+          },
+          "Passes %": {
+            home: null,
+            away: null
+          }
         },
-        {
-          elapsed: 71,
-          team_id: 45,
-          teamName: "Everton",
-          player_id: 18764,
-          player: "Morgan Schneiderlin",
-          type: "Card",
-          detail: "Yellow Card"
-        },
-        {
-          elapsed: 72,
-          team_id: 45,
-          teamName: "Everton",
-          player_id: 18768,
-          player: "Cenk Tosun",
-          type: "Goal",
-          detail: "Normal Goal"
-        },
-        {
-          elapsed: 75,
-          team_id: 47,
-          teamName: "Tottenham",
-          player_id: 174,
-          player: "Christian Eriksen",
-          type: "Goal",
-          detail: "Normal Goal"
-        },
-        {
-          elapsed: 77,
-          team_id: 47,
-          teamName: "Tottenham",
-          player_id: 176,
-          player: "Érik Lamela",
-          type: "subst",
-          detail: "Oliver Skipp"
-        },
-        {
-          elapsed: 77,
-          team_id: 47,
-          teamName: "Tottenham",
-          player_id: 185,
-          player: "Fernando Llorente",
-          type: "subst",
-          detail: "Vincent Janssen"
-        },
-        {
-          elapsed: 90,
-          team_id: 45,
-          teamName: "Everton",
-          player_id: 2724,
-          player: "Lucas Digne",
-          type: "Card",
-          detail: "Yellow Card"
-        }
-      ],
-      lineups: {
-        Tottenham: {
-          formation: "4-2-3-1",
-          startXI: [
-            {
-              team_id: 47,
-              player_id: 159,
-              player: "Hugo Lloris",
-              number: 1,
-              pos: "G"
+        players: [
+          {
+            event_id: 214055,
+            updateAt: 1568560069,
+            player_id: 47426,
+            player_name: "Rubén Blanco",
+            team_id: 538,
+            team_name: "Celta Vigo",
+            number: 13,
+            position: "G",
+            rating: "6.5",
+            minutes_played: 52,
+            captain: "False",
+            substitute: "False",
+            offsides: null,
+            shots: {
+              total: 0,
+              on: 0
             },
-            {
-              team_id: 47,
-              player_id: 171,
-              player: "Kyle Walker-Peters",
-              number: 16,
-              pos: "D"
+            goals: {
+              total: 0,
+              conceded: 1,
+              assists: 0
             },
-            {
-              team_id: 47,
-              player_id: 162,
-              player: "Toby Alderweireld",
-              number: 4,
-              pos: "D"
+            passes: {
+              total: 5,
+              key: 0,
+              accuracy: 45
             },
-            {
-              team_id: 47,
-              player_id: 175,
-              player: "Eric Dier",
-              number: 15,
-              pos: "D"
+            tackles: {
+              total: 0,
+              blocks: 0,
+              interceptions: 0
             },
-            {
-              team_id: 47,
-              player_id: 164,
-              player: "Ben Davies",
-              number: 33,
-              pos: "D"
+            duels: {
+              total: 0,
+              won: 0
             },
-            {
-              team_id: 47,
-              player_id: 179,
-              player: "Moussa Sissoko",
-              number: 17,
-              pos: "M"
+            dribbles: {
+              attempts: 0,
+              success: 0,
+              past: 0
             },
-            {
-              team_id: 47,
-              player_id: 174,
-              player: "Christian Eriksen",
-              number: 23,
-              pos: "M"
+            fouls: {
+              drawn: 0,
+              committed: 0
             },
-            {
-              team_id: 47,
-              player_id: 176,
-              player: "Érik Lamela",
-              number: 11,
-              pos: "M"
+            cards: {
+              yellow: 0,
+              red: 0
             },
-            {
-              team_id: 47,
-              player_id: 178,
-              player: "Lucas Moura",
-              number: 27,
-              pos: "M"
-            },
-            {
-              team_id: 47,
-              player_id: 172,
-              player: "Dele Alli",
-              number: 20,
-              pos: "M"
-            },
-            {
-              team_id: 47,
-              player_id: 185,
-              player: "Fernando Llorente",
-              number: 18,
-              pos: "F"
+            penalty: {
+              won: 0,
+              commited: 0,
+              success: 0,
+              missed: 0,
+              saved: 0
             }
-          ],
-          substitutes: [
-            {
-              team_id: 47,
-              player_id: 158,
-              player: "Paulo Gazzaniga",
-              number: 22,
-              pos: "G"
+          },
+          {
+            event_id: 214055,
+            updateAt: 1568560069,
+            player_id: 47432,
+            player_name: "Hugo Mallo",
+            team_id: 538,
+            team_name: "Celta Vigo",
+            number: 2,
+            position: "D",
+            rating: "6.2",
+            minutes_played: 52,
+            captain: "True",
+            substitute: "False",
+            offsides: null,
+            shots: {
+              total: 0,
+              on: 0
             },
-            {
-              team_id: 47,
-              player_id: 163,
-              player: "Serge Aurier",
-              number: 24,
-              pos: "D"
+            goals: {
+              total: 0,
+              conceded: 0,
+              assists: 0
             },
-            {
-              team_id: 47,
-              player_id: 169,
-              player: "Kieran Trippier",
-              number: 2,
-              pos: "D"
+            passes: {
+              total: 7,
+              key: 0,
+              accuracy: 63
             },
-            {
-              team_id: 47,
-              player_id: 180,
-              player: "Oliver Skipp",
-              number: 52,
-              pos: "M"
+            tackles: {
+              total: 0,
+              blocks: 0,
+              interceptions: 2
             },
-            {
-              team_id: 47,
-              player_id: 177,
-              player: "George Marsh",
-              number: 47,
-              pos: "M"
+            duels: {
+              total: 0,
+              won: 0
             },
-            {
-              team_id: 47,
-              player_id: 181,
-              player: "Victor Wanyama",
-              number: 12,
-              pos: "M"
+            dribbles: {
+              attempts: 0,
+              success: 0,
+              past: 1
             },
-            {
-              team_id: 47,
-              player_id: 183,
-              player: "Vincent Janssen",
-              number: 9,
-              pos: "F"
+            fouls: {
+              drawn: 0,
+              committed: 0
+            },
+            cards: {
+              yellow: 0,
+              red: 0
+            },
+            penalty: {
+              won: 0,
+              commited: 0,
+              success: 0,
+              missed: 0,
+              saved: 0
             }
-          ]
-        },
-        Everton: {
-          formation: "4-2-3-1",
-          startXI: [
-            {
-              team_id: 45,
-              player_id: 2932,
-              player: "Jordan Pickford",
-              number: 1,
-              pos: "G"
+          },
+          {
+            event_id: 214055,
+            updateAt: 1568560069,
+            player_id: 1926,
+            player_name: "Joseph Aidoo",
+            team_id: 538,
+            team_name: "Celta Vigo",
+            number: 18,
+            position: "D",
+            rating: "6.6",
+            minutes_played: 52,
+            captain: "False",
+            substitute: "False",
+            offsides: null,
+            shots: {
+              total: 1,
+              on: 0
             },
-            {
-              team_id: 45,
-              player_id: 2726,
-              player: "Kurt Zouma",
-              number: 5,
-              pos: "D"
+            goals: {
+              total: 0,
+              conceded: 0,
+              assists: 0
             },
-            {
-              team_id: 45,
-              player_id: 2934,
-              player: "Michael Keane",
-              number: 4,
-              pos: "D"
+            passes: {
+              total: 6,
+              key: 0,
+              accuracy: 75
             },
-            {
-              team_id: 45,
-              player_id: 2484,
-              player: "Yerry Mina",
-              number: 13,
-              pos: "D"
+            tackles: {
+              total: 0,
+              blocks: 1,
+              interceptions: 1
             },
-            {
-              team_id: 45,
-              player_id: 2724,
-              player: "Lucas Digne",
-              number: 12,
-              pos: "D"
+            duels: {
+              total: 0,
+              won: 0
             },
-            {
-              team_id: 45,
-              player_id: 18764,
-              player: "Morgan Schneiderlin",
-              number: 18,
-              pos: "M"
+            dribbles: {
+              attempts: 0,
+              success: 0,
+              past: 0
             },
-            {
-              team_id: 45,
-              player_id: 2990,
-              player: "Idrissa Gueye",
-              number: 17,
-              pos: "M"
+            fouls: {
+              drawn: 0,
+              committed: 1
             },
-            {
-              team_id: 45,
-              player_id: 18769,
-              player: "Theo Walcott",
-              number: 11,
-              pos: "M"
+            cards: {
+              yellow: 0,
+              red: 0
             },
-            {
-              team_id: 45,
-              player_id: 2795,
-              player: "Gylfi Sigurðsson",
-              number: 10,
-              pos: "M"
-            },
-            {
-              team_id: 45,
-              player_id: 18761,
-              player: "Bernard",
-              number: 20,
-              pos: "M"
-            },
-            {
-              team_id: 45,
-              player_id: 18768,
-              player: "Cenk Tosun",
-              number: 14,
-              pos: "F"
+            penalty: {
+              won: 0,
+              commited: 0,
+              success: 0,
+              missed: 0,
+              saved: 0
             }
-          ],
-          substitutes: [
-            {
-              team_id: 45,
-              player_id: 18756,
-              player: "Maarten Stekelenburg",
-              number: 22,
-              pos: "G"
+          },
+          {
+            event_id: 214055,
+            updateAt: 1568560069,
+            player_id: 47080,
+            player_name: "Jorge Sáenz",
+            team_id: 538,
+            team_name: "Celta Vigo",
+            number: 16,
+            position: "D",
+            rating: "3.0",
+            minutes_played: 11,
+            captain: "False",
+            substitute: "False",
+            offsides: null,
+            shots: {
+              total: 0,
+              on: 0
             },
-            {
-              team_id: 45,
-              player_id: 18757,
-              player: "Leighton Baines",
-              number: 3,
-              pos: "D"
+            goals: {
+              total: 0,
+              conceded: 0,
+              assists: 0
             },
-            {
-              team_id: 45,
-              player_id: 18760,
-              player: "Jonjoe Kenny",
-              number: 43,
-              pos: "D"
+            passes: {
+              total: 2,
+              key: 0,
+              accuracy: 66
             },
-            {
-              team_id: 45,
-              player_id: 18759,
-              player: "Phil Jagielka",
-              number: 6,
-              pos: "D"
+            tackles: {
+              total: 0,
+              blocks: 0,
+              interceptions: 0
             },
-            {
-              team_id: 45,
-              player_id: 18765,
-              player: "André Gomes",
-              number: 8,
-              pos: "M"
+            duels: {
+              total: 0,
+              won: 0
             },
-            {
-              team_id: 45,
-              player_id: 18762,
-              player: "Tom Davies",
-              number: 26,
-              pos: "M"
+            dribbles: {
+              attempts: 0,
+              success: 0,
+              past: 0
             },
-            {
-              team_id: 45,
-              player_id: 18767,
-              player: "Ademola Lookman",
-              number: 31,
-              pos: "F"
+            fouls: {
+              drawn: 0,
+              committed: 1
+            },
+            cards: {
+              yellow: 0,
+              red: 1
+            },
+            penalty: {
+              won: 0,
+              commited: 0,
+              success: 0,
+              missed: 0,
+              saved: 0
             }
-          ]
-        }
-      },
-      statistics: {
-        "Shots on Goal": { home: "3", away: "9" },
-        "Shots off Goal": { home: "5", away: "3" },
-        "Total Shots": { home: "11", away: "16" },
-        "Blocked Shots": { home: "3", away: "4" },
-        "Shots insidebox": { home: "4", away: "14" },
-        "Shots outsidebox": { home: "7", away: "2" },
-        Fouls: { home: "10", away: "13" },
-        "Corner Kicks": { home: "7", away: "4" },
-        Offsides: { home: "2", away: "1" },
-        "Ball Possession": { home: "55%", away: "45%" },
-        "Yellow Cards": { home: "0", away: "2" },
-        "Red Cards": { home: null, away: null },
-        "Goalkeeper Saves": { home: "7", away: "1" },
-        "Total passes": { home: "543", away: "436" },
-        "Passes accurate": { home: "449", away: "355" },
-        "Passes %": { home: "83%", away: "81%" }
-      },
-      players: [
-        {
-          event_id: 443,
-          updateAt: 1564409156,
-          player_id: 159,
-          player_name: "Hugo Lloris",
-          team_id: 47,
-          team_name: "Tottenham",
-          number: 1,
-          position: "G",
-          rating: "7.4",
-          minutes_played: 90,
-          captain: "True",
-          substitute: "False",
-          offsides: null,
-          shots: { total: 0, on: 0 },
-          goals: { total: 0, conceded: 2, assists: 0 },
-          passes: { total: 23, key: 0, accuracy: 67 },
-          tackles: { total: 0, blocks: 0, interceptions: 0 },
-          duels: { total: 0, won: 0 },
-          dribbles: { attempts: 0, success: 0, past: 0 },
-          fouls: { drawn: 0, committed: 0 },
-          cards: { yellow: 0, red: 0 },
-          penalty: { won: 0, commited: 0, success: 0, missed: 0, saved: 0 }
-        },
-        {
-          event_id: 443,
-          updateAt: 1564409156,
-          player_id: 171,
-          player_name: "Kyle Walker-Peters",
-          team_id: 47,
-          team_name: "Tottenham",
-          number: 16,
-          position: "D",
-          rating: "6.5",
-          minutes_played: 90,
-          captain: "False",
-          substitute: "False",
-          offsides: null,
-          shots: { total: 1, on: 0 },
-          goals: { total: 0, conceded: 0, assists: 0 },
-          passes: { total: 33, key: 0, accuracy: 84 },
-          tackles: { total: 1, blocks: 0, interceptions: 2 },
-          duels: { total: 15, won: 8 },
-          dribbles: { attempts: 3, success: 2, past: 0 },
-          fouls: { drawn: 2, committed: 2 },
-          cards: { yellow: 0, red: 0 },
-          penalty: { won: 0, commited: 0, success: 0, missed: 0, saved: 0 }
-        },
-        {
-          event_id: 443,
-          updateAt: 1564409156,
-          player_id: 162,
-          player_name: "Toby Alderweireld",
-          team_id: 47,
-          team_name: "Tottenham",
-          number: 4,
-          position: "D",
-          rating: "6.9",
-          minutes_played: 90,
-          captain: "False",
-          substitute: "False",
-          offsides: null,
-          shots: { total: 0, on: 0 },
-          goals: { total: 0, conceded: 0, assists: 0 },
-          passes: { total: 57, key: 0, accuracy: 77 },
-          tackles: { total: 2, blocks: 0, interceptions: 2 },
-          duels: { total: 8, won: 6 },
-          dribbles: { attempts: 0, success: 0, past: 0 },
-          fouls: { drawn: 0, committed: 0 },
-          cards: { yellow: 0, red: 0 },
-          penalty: { won: 0, commited: 0, success: 0, missed: 0, saved: 0 }
-        },
-        {
-          event_id: 443,
-          updateAt: 1564409156,
-          player_id: 175,
-          player_name: "Eric Dier",
-          team_id: 47,
-          team_name: "Tottenham",
-          number: 15,
-          position: "D",
-          rating: "7.4",
-          minutes_played: 90,
-          captain: "False",
-          substitute: "False",
-          offsides: null,
-          shots: { total: 2, on: 1 },
-          goals: { total: 1, conceded: 0, assists: 0 },
-          passes: { total: 73, key: 0, accuracy: 85 },
-          tackles: { total: 0, blocks: 2, interceptions: 0 },
-          duels: { total: 7, won: 3 },
-          dribbles: { attempts: 0, success: 0, past: 2 },
-          fouls: { drawn: 1, committed: 1 },
-          cards: { yellow: 0, red: 0 },
-          penalty: { won: 0, commited: 0, success: 0, missed: 0, saved: 0 }
-        },
-        {
-          event_id: 443,
-          updateAt: 1564409156,
-          player_id: 164,
-          player_name: "Ben Davies",
-          team_id: 47,
-          team_name: "Tottenham",
-          number: 33,
-          position: "D",
-          rating: "6.6",
-          minutes_played: 90,
-          captain: "False",
-          substitute: "False",
-          offsides: null,
-          shots: { total: 0, on: 0 },
-          goals: { total: 0, conceded: 0, assists: 0 },
-          passes: { total: 39, key: 0, accuracy: 92 },
-          tackles: { total: 0, blocks: 1, interceptions: 2 },
-          duels: { total: 8, won: 3 },
-          dribbles: { attempts: 0, success: 0, past: 0 },
-          fouls: { drawn: 0, committed: 2 },
-          cards: { yellow: 0, red: 0 },
-          penalty: { won: 0, commited: 0, success: 0, missed: 0, saved: 0 }
-        },
-        {
-          event_id: 443,
-          updateAt: 1564409156,
-          player_id: 179,
-          player_name: "Moussa Sissoko",
-          team_id: 47,
-          team_name: "Tottenham",
-          number: 17,
-          position: "M",
-          rating: "6.7",
-          minutes_played: 90,
-          captain: "False",
-          substitute: "False",
-          offsides: null,
-          shots: { total: 0, on: 0 },
-          goals: { total: 0, conceded: 0, assists: 0 },
-          passes: { total: 55, key: 1, accuracy: 94 },
-          tackles: { total: 1, blocks: 1, interceptions: 1 },
-          duels: { total: 7, won: 3 },
-          dribbles: { attempts: 1, success: 1, past: 1 },
-          fouls: { drawn: 1, committed: 1 },
-          cards: { yellow: 0, red: 0 },
-          penalty: { won: 0, commited: 0, success: 0, missed: 0, saved: 0 }
-        },
-        {
-          event_id: 443,
-          updateAt: 1564409156,
-          player_id: 174,
-          player_name: "Christian Eriksen",
-          team_id: 47,
-          team_name: "Tottenham",
-          number: 23,
-          position: "M",
-          rating: "7.6",
-          minutes_played: 90,
-          captain: "False",
-          substitute: "False",
-          offsides: null,
-          shots: { total: 3, on: 1 },
-          goals: { total: 1, conceded: 0, assists: 0 },
-          passes: { total: 52, key: 2, accuracy: 76 },
-          tackles: { total: 1, blocks: 0, interceptions: 0 },
-          duels: { total: 10, won: 6 },
-          dribbles: { attempts: 3, success: 1, past: 1 },
-          fouls: { drawn: 1, committed: 0 },
-          cards: { yellow: 0, red: 0 },
-          penalty: { won: 0, commited: 0, success: 0, missed: 0, saved: 0 }
-        },
-        {
-          event_id: 443,
-          updateAt: 1564409156,
-          player_id: 176,
-          player_name: "Érik Lamela",
-          team_id: 47,
-          team_name: "Tottenham",
-          number: 11,
-          position: "M",
-          rating: "6.8",
-          minutes_played: 77,
-          captain: "False",
-          substitute: "False",
-          offsides: null,
-          shots: { total: 0, on: 0 },
-          goals: { total: 0, conceded: 0, assists: 0 },
-          passes: { total: 24, key: 3, accuracy: 77 },
-          tackles: { total: 1, blocks: 0, interceptions: 0 },
-          duels: { total: 6, won: 3 },
-          dribbles: { attempts: 1, success: 0, past: 0 },
-          fouls: { drawn: 2, committed: 1 },
-          cards: { yellow: 0, red: 0 },
-          penalty: { won: 0, commited: 0, success: 0, missed: 0, saved: 0 }
-        },
-        {
-          event_id: 443,
-          updateAt: 1564409156,
-          player_id: 178,
-          player_name: "Lucas Moura",
-          team_id: 47,
-          team_name: "Tottenham",
-          number: 27,
-          position: "M",
-          rating: "7.0",
-          minutes_played: 90,
-          captain: "False",
-          substitute: "False",
-          offsides: null,
-          shots: { total: 1, on: 0 },
-          goals: { total: 0, conceded: 0, assists: 0 },
-          passes: { total: 22, key: 1, accuracy: 91 },
-          tackles: { total: 1, blocks: 0, interceptions: 0 },
-          duels: { total: 8, won: 6 },
-          dribbles: { attempts: 2, success: 1, past: 0 },
-          fouls: { drawn: 2, committed: 0 },
-          cards: { yellow: 0, red: 0 },
-          penalty: { won: 0, commited: 0, success: 0, missed: 0, saved: 0 }
-        },
-        {
-          event_id: 443,
-          updateAt: 1564409156,
-          player_id: 172,
-          player_name: "Dele Alli",
-          team_id: 47,
-          team_name: "Tottenham",
-          number: 20,
-          position: "M",
-          rating: "6.9",
-          minutes_played: 45,
-          captain: "False",
-          substitute: "False",
-          offsides: null,
-          shots: { total: 2, on: 0 },
-          goals: { total: 0, conceded: 0, assists: 0 },
-          passes: { total: 27, key: 0, accuracy: 81 },
-          tackles: { total: 1, blocks: 0, interceptions: 0 },
-          duels: { total: 3, won: 2 },
-          dribbles: { attempts: 1, success: 0, past: 0 },
-          fouls: { drawn: 1, committed: 0 },
-          cards: { yellow: 0, red: 0 },
-          penalty: { won: 0, commited: 0, success: 0, missed: 0, saved: 0 }
-        },
-        {
-          event_id: 443,
-          updateAt: 1564409156,
-          player_id: 185,
-          player_name: "Fernando Llorente",
-          team_id: 47,
-          team_name: "Tottenham",
-          number: 18,
-          position: "F",
-          rating: "7.0",
-          minutes_played: 77,
-          captain: "False",
-          substitute: "False",
-          offsides: null,
-          shots: { total: 2, on: 1 },
-          goals: { total: 0, conceded: 0, assists: 0 },
-          passes: { total: 16, key: 0, accuracy: 69 },
-          tackles: { total: 2, blocks: 0, interceptions: 0 },
-          duels: { total: 20, won: 10 },
-          dribbles: { attempts: 2, success: 2, past: 0 },
-          fouls: { drawn: 2, committed: 0 },
-          cards: { yellow: 0, red: 0 },
-          penalty: { won: 0, commited: 0, success: 0, missed: 0, saved: 0 }
-        },
-        {
-          event_id: 443,
-          updateAt: 1564409156,
-          player_id: 180,
-          player_name: "Oliver Skipp",
-          team_id: 47,
-          team_name: "Tottenham",
-          number: 52,
-          position: "M",
-          rating: "6.7",
-          minutes_played: 13,
-          captain: "False",
-          substitute: "True",
-          offsides: null,
-          shots: { total: 0, on: 0 },
-          goals: { total: 0, conceded: 0, assists: 0 },
-          passes: { total: 10, key: 0, accuracy: 90 },
-          tackles: { total: 0, blocks: 0, interceptions: 0 },
-          duels: { total: 2, won: 2 },
-          dribbles: { attempts: 0, success: 0, past: 0 },
-          fouls: { drawn: 0, committed: 0 },
-          cards: { yellow: 0, red: 0 },
-          penalty: { won: 0, commited: 0, success: 0, missed: 0, saved: 0 }
-        },
-        {
-          event_id: 443,
-          updateAt: 1564409156,
-          player_id: 181,
-          player_name: "Victor Wanyama",
-          team_id: 47,
-          team_name: "Tottenham",
-          number: 12,
-          position: "M",
-          rating: "6.7",
-          minutes_played: 45,
-          captain: "False",
-          substitute: "True",
-          offsides: null,
-          shots: { total: 0, on: 0 },
-          goals: { total: 0, conceded: 0, assists: 0 },
-          passes: { total: 16, key: 0, accuracy: 88 },
-          tackles: { total: 2, blocks: 0, interceptions: 2 },
-          duels: { total: 7, won: 4 },
-          dribbles: { attempts: 0, success: 0, past: 0 },
-          fouls: { drawn: 1, committed: 2 },
-          cards: { yellow: 0, red: 0 },
-          penalty: { won: 0, commited: 0, success: 0, missed: 0, saved: 0 }
-        },
-        {
-          event_id: 443,
-          updateAt: 1564409156,
-          player_id: 183,
-          player_name: "Vincent Janssen",
-          team_id: 47,
-          team_name: "Tottenham",
-          number: 9,
-          position: "F",
-          rating: "6.6",
-          minutes_played: 13,
-          captain: "False",
-          substitute: "True",
-          offsides: null,
-          shots: { total: 0, on: 0 },
-          goals: { total: 0, conceded: 0, assists: 0 },
-          passes: { total: 2, key: 0, accuracy: 66 },
-          tackles: { total: 0, blocks: 0, interceptions: 0 },
-          duels: { total: 6, won: 3 },
-          dribbles: { attempts: 0, success: 0, past: 0 },
-          fouls: { drawn: 0, committed: 1 },
-          cards: { yellow: 0, red: 0 },
-          penalty: { won: 0, commited: 0, success: 0, missed: 0, saved: 0 }
-        },
-        {
-          event_id: 443,
-          updateAt: 1564409156,
-          player_id: 2932,
-          player_name: "Jordan Pickford",
-          team_id: 45,
-          team_name: "Everton",
-          number: 1,
-          position: "G",
-          rating: "6.0",
-          minutes_played: 90,
-          captain: "False",
-          substitute: "False",
-          offsides: null,
-          shots: { total: 0, on: 0 },
-          goals: { total: 0, conceded: 2, assists: 0 },
-          passes: { total: 21, key: 0, accuracy: 70 },
-          tackles: { total: 0, blocks: 0, interceptions: 0 },
-          duels: { total: 0, won: 0 },
-          dribbles: { attempts: 0, success: 0, past: 0 },
-          fouls: { drawn: 0, committed: 0 },
-          cards: { yellow: 0, red: 0 },
-          penalty: { won: 0, commited: 0, success: 0, missed: 0, saved: 0 }
-        },
-        {
-          event_id: 443,
-          updateAt: 1564409156,
-          player_id: 2726,
-          player_name: "Kurt Zouma",
-          team_id: 45,
-          team_name: "Everton",
-          number: 5,
-          position: "D",
-          rating: "6.2",
-          minutes_played: 90,
-          captain: "False",
-          substitute: "False",
-          offsides: null,
-          shots: { total: 0, on: 0 },
-          goals: { total: 0, conceded: 0, assists: 0 },
-          passes: { total: 33, key: 0, accuracy: 75 },
-          tackles: { total: 2, blocks: 0, interceptions: 2 },
-          duels: { total: 8, won: 4 },
-          dribbles: { attempts: 0, success: 0, past: 0 },
-          fouls: { drawn: 1, committed: 1 },
-          cards: { yellow: 0, red: 0 },
-          penalty: { won: 0, commited: 0, success: 0, missed: 0, saved: 0 }
-        },
-        {
-          event_id: 443,
-          updateAt: 1564409156,
-          player_id: 2934,
-          player_name: "Michael Keane",
-          team_id: 45,
-          team_name: "Everton",
-          number: 4,
-          position: "D",
-          rating: "7.2",
-          minutes_played: 90,
-          captain: "False",
-          substitute: "False",
-          offsides: null,
-          shots: { total: 3, on: 2 },
-          goals: { total: 0, conceded: 0, assists: 0 },
-          passes: { total: 46, key: 0, accuracy: 85 },
-          tackles: { total: 0, blocks: 2, interceptions: 1 },
-          duels: { total: 12, won: 8 },
-          dribbles: { attempts: 0, success: 0, past: 0 },
-          fouls: { drawn: 0, committed: 0 },
-          cards: { yellow: 0, red: 0 },
-          penalty: { won: 0, commited: 0, success: 0, missed: 0, saved: 0 }
-        },
-        {
-          event_id: 443,
-          updateAt: 1564409156,
-          player_id: 2484,
-          player_name: "Yerry Mina",
-          team_id: 45,
-          team_name: "Everton",
-          number: 13,
-          position: "D",
-          rating: "6.1",
-          minutes_played: 90,
-          captain: "False",
-          substitute: "False",
-          offsides: null,
-          shots: { total: 0, on: 0 },
-          goals: { total: 0, conceded: 0, assists: 0 },
-          passes: { total: 43, key: 0, accuracy: 89 },
-          tackles: { total: 0, blocks: 1, interceptions: 0 },
-          duels: { total: 3, won: 2 },
-          dribbles: { attempts: 0, success: 0, past: 0 },
-          fouls: { drawn: 0, committed: 0 },
-          cards: { yellow: 0, red: 0 },
-          penalty: { won: 0, commited: 0, success: 0, missed: 0, saved: 0 }
-        },
-        {
-          event_id: 443,
-          updateAt: 1564409156,
-          player_id: 2724,
-          player_name: "Lucas Digne",
-          team_id: 45,
-          team_name: "Everton",
-          number: 12,
-          position: "D",
-          rating: "6.8",
-          minutes_played: 90,
-          captain: "False",
-          substitute: "False",
-          offsides: null,
-          shots: { total: 1, on: 0 },
-          goals: { total: 0, conceded: 0, assists: 0 },
-          passes: { total: 40, key: 4, accuracy: 71 },
-          tackles: { total: 0, blocks: 0, interceptions: 0 },
-          duels: { total: 12, won: 7 },
-          dribbles: { attempts: 1, success: 0, past: 1 },
-          fouls: { drawn: 1, committed: 1 },
-          cards: { yellow: 1, red: 0 },
-          penalty: { won: 0, commited: 0, success: 0, missed: 0, saved: 0 }
-        },
-        {
-          event_id: 443,
-          updateAt: 1564409156,
-          player_id: 18764,
-          player_name: "Morgan Schneiderlin",
-          team_id: 45,
-          team_name: "Everton",
-          number: 18,
-          position: "M",
-          rating: "6.3",
-          minutes_played: 90,
-          captain: "False",
-          substitute: "False",
-          offsides: null,
-          shots: { total: 0, on: 0 },
-          goals: { total: 0, conceded: 0, assists: 0 },
-          passes: { total: 43, key: 0, accuracy: 97 },
-          tackles: { total: 1, blocks: 0, interceptions: 1 },
-          duels: { total: 11, won: 2 },
-          dribbles: { attempts: 2, success: 1, past: 1 },
-          fouls: { drawn: 0, committed: 3 },
-          cards: { yellow: 1, red: 0 },
-          penalty: { won: 0, commited: 0, success: 0, missed: 0, saved: 0 }
-        },
-        {
-          event_id: 443,
-          updateAt: 1564409156,
-          player_id: 2990,
-          player_name: "Idrissa Gueye",
-          team_id: 45,
-          team_name: "Everton",
-          number: 17,
-          position: "M",
-          rating: "7.1",
-          minutes_played: 65,
-          captain: "False",
-          substitute: "False",
-          offsides: null,
-          shots: { total: 0, on: 0 },
-          goals: { total: 0, conceded: 0, assists: 0 },
-          passes: { total: 27, key: 0, accuracy: 90 },
-          tackles: { total: 1, blocks: 0, interceptions: 4 },
-          duels: { total: 7, won: 3 },
-          dribbles: { attempts: 0, success: 0, past: 1 },
-          fouls: { drawn: 0, committed: 2 },
-          cards: { yellow: 0, red: 0 },
-          penalty: { won: 0, commited: 0, success: 0, missed: 0, saved: 0 }
-        },
-        {
-          event_id: 443,
-          updateAt: 1564409156,
-          player_id: 18769,
-          player_name: "Theo Walcott",
-          team_id: 45,
-          team_name: "Everton",
-          number: 11,
-          position: "M",
-          rating: "7.3",
-          minutes_played: 90,
-          captain: "False",
-          substitute: "False",
-          offsides: null,
-          shots: { total: 4, on: 2 },
-          goals: { total: 1, conceded: 0, assists: 0 },
-          passes: { total: 17, key: 0, accuracy: 81 },
-          tackles: { total: 1, blocks: 0, interceptions: 0 },
-          duels: { total: 8, won: 4 },
-          dribbles: { attempts: 1, success: 0, past: 0 },
-          fouls: { drawn: 2, committed: 0 },
-          cards: { yellow: 0, red: 0 },
-          penalty: { won: 0, commited: 0, success: 0, missed: 0, saved: 0 }
-        },
-        {
-          event_id: 443,
-          updateAt: 1564409156,
-          player_id: 2795,
-          player_name: "Gylfi Sigurðsson",
-          team_id: 45,
-          team_name: "Everton",
-          number: 10,
-          position: "M",
-          rating: "7.7",
-          minutes_played: 90,
-          captain: "True",
-          substitute: "False",
-          offsides: null,
-          shots: { total: 2, on: 1 },
-          goals: { total: 0, conceded: 0, assists: 1 },
-          passes: { total: 18, key: 3, accuracy: 78 },
-          tackles: { total: 2, blocks: 0, interceptions: 2 },
-          duels: { total: 9, won: 6 },
-          dribbles: { attempts: 3, success: 2, past: 0 },
-          fouls: { drawn: 2, committed: 0 },
-          cards: { yellow: 0, red: 0 },
-          penalty: { won: 0, commited: 0, success: 0, missed: 0, saved: 0 }
-        },
-        {
-          event_id: 443,
-          updateAt: 1564409156,
-          player_id: 18761,
-          player_name: "Bernard",
-          team_id: 45,
-          team_name: "Everton",
-          number: 20,
-          position: "M",
-          rating: "5.8",
-          minutes_played: 65,
-          captain: "False",
-          substitute: "False",
-          offsides: null,
-          shots: { total: 2, on: 1 },
-          goals: { total: 0, conceded: 0, assists: 0 },
-          passes: { total: 25, key: 1, accuracy: 73 },
-          tackles: { total: 0, blocks: 0, interceptions: 0 },
-          duels: { total: 13, won: 3 },
-          dribbles: { attempts: 5, success: 1, past: 3 },
-          fouls: { drawn: 1, committed: 0 },
-          cards: { yellow: 0, red: 0 },
-          penalty: { won: 0, commited: 0, success: 0, missed: 0, saved: 0 }
-        },
-        {
-          event_id: 443,
-          updateAt: 1564409156,
-          player_id: 18768,
-          player_name: "Cenk Tosun",
-          team_id: 45,
-          team_name: "Everton",
-          number: 14,
-          position: "F",
-          rating: "8.1",
-          minutes_played: 90,
-          captain: "False",
-          substitute: "False",
-          offsides: null,
-          shots: { total: 3, on: 2 },
-          goals: { total: 1, conceded: 0, assists: 0 },
-          passes: { total: 18, key: 3, accuracy: 75 },
-          tackles: { total: 1, blocks: 0, interceptions: 1 },
-          duels: { total: 15, won: 7 },
-          dribbles: { attempts: 0, success: 0, past: 0 },
-          fouls: { drawn: 2, committed: 3 },
-          cards: { yellow: 0, red: 0 },
-          penalty: { won: 0, commited: 0, success: 0, missed: 0, saved: 0 }
-        },
-        {
-          event_id: 443,
-          updateAt: 1564409156,
-          player_id: 18765,
-          player_name: "André Gomes",
-          team_id: 45,
-          team_name: "Everton",
-          number: 8,
-          position: "M",
-          rating: "6.3",
-          minutes_played: 25,
-          captain: "False",
-          substitute: "False",
-          offsides: null,
-          shots: { total: 0, on: 0 },
-          goals: { total: 0, conceded: 0, assists: 0 },
-          passes: { total: 14, key: 0, accuracy: 82 },
-          tackles: { total: 0, blocks: 0, interceptions: 0 },
-          duels: { total: 5, won: 0 },
-          dribbles: { attempts: 0, success: 0, past: 1 },
-          fouls: { drawn: 0, committed: 2 },
-          cards: { yellow: 0, red: 0 },
-          penalty: { won: 0, commited: 0, success: 0, missed: 0, saved: 0 }
-        },
-        {
-          event_id: 443,
-          updateAt: 1564409156,
-          player_id: 18767,
-          player_name: "Ademola Lookman",
-          team_id: 45,
-          team_name: "Everton",
-          number: 31,
-          position: "F",
-          rating: "6.4",
-          minutes_played: 25,
-          captain: "False",
-          substitute: "False",
-          offsides: null,
-          shots: { total: 1, on: 1 },
-          goals: { total: 0, conceded: 0, assists: 0 },
-          passes: { total: 10, key: 0, accuracy: 90 },
-          tackles: { total: 1, blocks: 0, interceptions: 0 },
-          duels: { total: 4, won: 2 },
-          dribbles: { attempts: 1, success: 0, past: 0 },
-          fouls: { drawn: 1, committed: 1 },
-          cards: { yellow: 0, red: 0 },
-          penalty: { won: 0, commited: 0, success: 0, missed: 0, saved: 0 }
-        }
-      ]
-    }
+          },
+          {
+            event_id: 214055,
+            updateAt: 1568560069,
+            player_id: 47433,
+            player_name: "Lucas Olaza",
+            team_id: 538,
+            team_name: "Celta Vigo",
+            number: 15,
+            position: "D",
+            rating: "6.5",
+            minutes_played: 52,
+            captain: "False",
+            substitute: "False",
+            offsides: null,
+            shots: {
+              total: 0,
+              on: 0
+            },
+            goals: {
+              total: 0,
+              conceded: 0,
+              assists: 0
+            },
+            passes: {
+              total: 6,
+              key: 0,
+              accuracy: 75
+            },
+            tackles: {
+              total: 1,
+              blocks: 0,
+              interceptions: 0
+            },
+            duels: {
+              total: 0,
+              won: 0
+            },
+            dribbles: {
+              attempts: 0,
+              success: 0,
+              past: 0
+            },
+            fouls: {
+              drawn: 0,
+              committed: 1
+            },
+            cards: {
+              yellow: 0,
+              red: 0
+            },
+            penalty: {
+              won: 0,
+              commited: 0,
+              success: 0,
+              missed: 0,
+              saved: 0
+            }
+          },
+          {
+            event_id: 214055,
+            updateAt: 1568560069,
+            player_id: 47440,
+            player_name: "Brais Méndez",
+            team_id: 538,
+            team_name: "Celta Vigo",
+            number: 23,
+            position: "M",
+            rating: "6.7",
+            minutes_played: 15,
+            captain: "False",
+            substitute: "False",
+            offsides: null,
+            shots: {
+              total: 1,
+              on: 0
+            },
+            goals: {
+              total: 0,
+              conceded: 0,
+              assists: 0
+            },
+            passes: {
+              total: 1,
+              key: 0,
+              accuracy: 100
+            },
+            tackles: {
+              total: 0,
+              blocks: 0,
+              interceptions: 0
+            },
+            duels: {
+              total: 0,
+              won: 0
+            },
+            dribbles: {
+              attempts: 0,
+              success: 0,
+              past: 0
+            },
+            fouls: {
+              drawn: 1,
+              committed: 0
+            },
+            cards: {
+              yellow: 0,
+              red: 0
+            },
+            penalty: {
+              won: 0,
+              commited: 0,
+              success: 0,
+              missed: 0,
+              saved: 0
+            }
+          },
+          {
+            event_id: 214055,
+            updateAt: 1568560069,
+            player_id: 47435,
+            player_name: "Fran Beltran",
+            team_id: 538,
+            team_name: "Celta Vigo",
+            number: 8,
+            position: "M",
+            rating: "5.5",
+            minutes_played: 29,
+            captain: "False",
+            substitute: "False",
+            offsides: null,
+            shots: {
+              total: 0,
+              on: 0
+            },
+            goals: {
+              total: 0,
+              conceded: 0,
+              assists: 0
+            },
+            passes: {
+              total: 5,
+              key: 0,
+              accuracy: 83
+            },
+            tackles: {
+              total: 0,
+              blocks: 0,
+              interceptions: 2
+            },
+            duels: {
+              total: 0,
+              won: 0
+            },
+            dribbles: {
+              attempts: 0,
+              success: 0,
+              past: 0
+            },
+            fouls: {
+              drawn: 1,
+              committed: 0
+            },
+            cards: {
+              yellow: 0,
+              red: 1
+            },
+            penalty: {
+              won: 0,
+              commited: 0,
+              success: 0,
+              missed: 0,
+              saved: 0
+            }
+          },
+          {
+            event_id: 214055,
+            updateAt: 1568560069,
+            player_id: 47439,
+            player_name: "Stanislav Lobotka",
+            team_id: 538,
+            team_name: "Celta Vigo",
+            number: 14,
+            position: "M",
+            rating: "6.7",
+            minutes_played: 52,
+            captain: "False",
+            substitute: "False",
+            offsides: null,
+            shots: {
+              total: 0,
+              on: 0
+            },
+            goals: {
+              total: 0,
+              conceded: 0,
+              assists: 0
+            },
+            passes: {
+              total: 13,
+              key: 0,
+              accuracy: 76
+            },
+            tackles: {
+              total: 1,
+              blocks: 0,
+              interceptions: 0
+            },
+            duels: {
+              total: 0,
+              won: 0
+            },
+            dribbles: {
+              attempts: 1,
+              success: 1,
+              past: 0
+            },
+            fouls: {
+              drawn: 1,
+              committed: 1
+            },
+            cards: {
+              yellow: 0,
+              red: 0
+            },
+            penalty: {
+              won: 0,
+              commited: 0,
+              success: 0,
+              missed: 0,
+              saved: 0
+            }
+          },
+          {
+            event_id: 214055,
+            updateAt: 1568560069,
+            player_id: 1461,
+            player_name: "Denis Suárez",
+            team_id: 538,
+            team_name: "Celta Vigo",
+            number: 6,
+            position: "M",
+            rating: "6.5",
+            minutes_played: 52,
+            captain: "False",
+            substitute: "False",
+            offsides: null,
+            shots: {
+              total: 0,
+              on: 0
+            },
+            goals: {
+              total: 0,
+              conceded: 0,
+              assists: 0
+            },
+            passes: {
+              total: 6,
+              key: 1,
+              accuracy: 60
+            },
+            tackles: {
+              total: 1,
+              blocks: 0,
+              interceptions: 0
+            },
+            duels: {
+              total: 0,
+              won: 0
+            },
+            dribbles: {
+              attempts: 2,
+              success: 0,
+              past: 0
+            },
+            fouls: {
+              drawn: 0,
+              committed: 0
+            },
+            cards: {
+              yellow: 1,
+              red: 0
+            },
+            penalty: {
+              won: 0,
+              commited: 0,
+              success: 0,
+              missed: 0,
+              saved: 0
+            }
+          },
+          {
+            event_id: 214055,
+            updateAt: 1568560069,
+            player_id: 47445,
+            player_name: "Iago Aspas",
+            team_id: 538,
+            team_name: "Celta Vigo",
+            number: 10,
+            position: "F",
+            rating: "6.9",
+            minutes_played: 52,
+            captain: "False",
+            substitute: "False",
+            offsides: null,
+            shots: {
+              total: 0,
+              on: 0
+            },
+            goals: {
+              total: 0,
+              conceded: 0,
+              assists: 0
+            },
+            passes: {
+              total: 9,
+              key: 1,
+              accuracy: 69
+            },
+            tackles: {
+              total: 1,
+              blocks: 0,
+              interceptions: 0
+            },
+            duels: {
+              total: 0,
+              won: 0
+            },
+            dribbles: {
+              attempts: 2,
+              success: 2,
+              past: 0
+            },
+            fouls: {
+              drawn: 3,
+              committed: 0
+            },
+            cards: {
+              yellow: 0,
+              red: 0
+            },
+            penalty: {
+              won: 0,
+              commited: 0,
+              success: 0,
+              missed: 0,
+              saved: 0
+            }
+          },
+          {
+            event_id: 214055,
+            updateAt: 1568560069,
+            player_id: 934,
+            player_name: "Santi Mina",
+            team_id: 538,
+            team_name: "Celta Vigo",
+            number: 22,
+            position: "F",
+            rating: "6.5",
+            minutes_played: 52,
+            captain: "False",
+            substitute: "False",
+            offsides: null,
+            shots: {
+              total: 0,
+              on: 0
+            },
+            goals: {
+              total: 0,
+              conceded: 0,
+              assists: 0
+            },
+            passes: {
+              total: 10,
+              key: 0,
+              accuracy: 90
+            },
+            tackles: {
+              total: 0,
+              blocks: 0,
+              interceptions: 1
+            },
+            duels: {
+              total: 0,
+              won: 0
+            },
+            dribbles: {
+              attempts: 0,
+              success: 0,
+              past: 2
+            },
+            fouls: {
+              drawn: 1,
+              committed: 2
+            },
+            cards: {
+              yellow: 1,
+              red: 0
+            },
+            penalty: {
+              won: 0,
+              commited: 0,
+              success: 0,
+              missed: 0,
+              saved: 0
+            }
+          },
+          {
+            event_id: 214055,
+            updateAt: 1568560069,
+            player_id: 2870,
+            player_name: "Néstor Araujo",
+            team_id: 538,
+            team_name: "Celta Vigo",
+            number: 4,
+            position: "D",
+            rating: "6.5",
+            minutes_played: 37,
+            captain: "False",
+            substitute: "False",
+            offsides: null,
+            shots: {
+              total: 0,
+              on: 0
+            },
+            goals: {
+              total: 0,
+              conceded: 0,
+              assists: 0
+            },
+            passes: {
+              total: 3,
+              key: 0,
+              accuracy: 60
+            },
+            tackles: {
+              total: 0,
+              blocks: 0,
+              interceptions: 0
+            },
+            duels: {
+              total: 0,
+              won: 0
+            },
+            dribbles: {
+              attempts: 0,
+              success: 0,
+              past: 0
+            },
+            fouls: {
+              drawn: 0,
+              committed: 0
+            },
+            cards: {
+              yellow: 0,
+              red: 0
+            },
+            penalty: {
+              won: 0,
+              commited: 0,
+              success: 0,
+              missed: 0,
+              saved: 0
+            }
+          },
+          {
+            event_id: 214055,
+            updateAt: 1568560069,
+            player_id: 46672,
+            player_name: "Rui Silva",
+            team_id: 715,
+            team_name: "Granada CF",
+            number: 1,
+            position: "G",
+            rating: "6.3",
+            minutes_played: 52,
+            captain: "False",
+            substitute: "False",
+            offsides: null,
+            shots: {
+              total: 0,
+              on: 0
+            },
+            goals: {
+              total: 0,
+              conceded: 0,
+              assists: 0
+            },
+            passes: {
+              total: 7,
+              key: 0,
+              accuracy: 87
+            },
+            tackles: {
+              total: 0,
+              blocks: 0,
+              interceptions: 0
+            },
+            duels: {
+              total: 0,
+              won: 0
+            },
+            dribbles: {
+              attempts: 0,
+              success: 0,
+              past: 0
+            },
+            fouls: {
+              drawn: 0,
+              committed: 0
+            },
+            cards: {
+              yellow: 0,
+              red: 0
+            },
+            penalty: {
+              won: 0,
+              commited: 0,
+              success: 0,
+              missed: 0,
+              saved: 0
+            }
+          },
+          {
+            event_id: 214055,
+            updateAt: 1568560069,
+            player_id: 46677,
+            player_name: "Víctor Díaz",
+            team_id: 715,
+            team_name: "Granada CF",
+            number: 16,
+            position: "D",
+            rating: "6.9",
+            minutes_played: 52,
+            captain: "True",
+            substitute: "False",
+            offsides: null,
+            shots: {
+              total: 1,
+              on: 0
+            },
+            goals: {
+              total: 0,
+              conceded: 0,
+              assists: 0
+            },
+            passes: {
+              total: 20,
+              key: 1,
+              accuracy: 83
+            },
+            tackles: {
+              total: 1,
+              blocks: 0,
+              interceptions: 0
+            },
+            duels: {
+              total: 0,
+              won: 0
+            },
+            dribbles: {
+              attempts: 0,
+              success: 0,
+              past: 0
+            },
+            fouls: {
+              drawn: 0,
+              committed: 1
+            },
+            cards: {
+              yellow: 1,
+              red: 0
+            },
+            penalty: {
+              won: 0,
+              commited: 0,
+              success: 0,
+              missed: 0,
+              saved: 0
+            }
+          },
+          {
+            event_id: 214055,
+            updateAt: 1568560069,
+            player_id: 46795,
+            player_name: "Domingos Duarte",
+            team_id: 715,
+            team_name: "Granada CF",
+            number: 22,
+            position: "D",
+            rating: "6.7",
+            minutes_played: 52,
+            captain: "False",
+            substitute: "False",
+            offsides: null,
+            shots: {
+              total: 0,
+              on: 0
+            },
+            goals: {
+              total: 0,
+              conceded: 0,
+              assists: 0
+            },
+            passes: {
+              total: 14,
+              key: 0,
+              accuracy: 93
+            },
+            tackles: {
+              total: 0,
+              blocks: 0,
+              interceptions: 0
+            },
+            duels: {
+              total: 0,
+              won: 0
+            },
+            dribbles: {
+              attempts: 0,
+              success: 0,
+              past: 0
+            },
+            fouls: {
+              drawn: 0,
+              committed: 0
+            },
+            cards: {
+              yellow: 0,
+              red: 0
+            },
+            penalty: {
+              won: 0,
+              commited: 0,
+              success: 0,
+              missed: 0,
+              saved: 0
+            }
+          },
+          {
+            event_id: 214055,
+            updateAt: 1568560069,
+            player_id: 46683,
+            player_name: "Germán Sánchez",
+            team_id: 715,
+            team_name: "Granada CF",
+            number: 6,
+            position: "D",
+            rating: "7.3",
+            minutes_played: 52,
+            captain: "False",
+            substitute: "False",
+            offsides: null,
+            shots: {
+              total: 1,
+              on: 1
+            },
+            goals: {
+              total: 1,
+              conceded: 0,
+              assists: 0
+            },
+            passes: {
+              total: 17,
+              key: 0,
+              accuracy: 94
+            },
+            tackles: {
+              total: 0,
+              blocks: 0,
+              interceptions: 0
+            },
+            duels: {
+              total: 0,
+              won: 0
+            },
+            dribbles: {
+              attempts: 0,
+              success: 0,
+              past: 0
+            },
+            fouls: {
+              drawn: 1,
+              committed: 2
+            },
+            cards: {
+              yellow: 1,
+              red: 0
+            },
+            penalty: {
+              won: 0,
+              commited: 0,
+              success: 0,
+              missed: 0,
+              saved: 0
+            }
+          },
+          {
+            event_id: 214055,
+            updateAt: 1568560069,
+            player_id: 46679,
+            player_name: "Quini",
+            team_id: 715,
+            team_name: "Granada CF",
+            number: 17,
+            position: "D",
+            rating: "6.3",
+            minutes_played: 52,
+            captain: "False",
+            substitute: "False",
+            offsides: null,
+            shots: {
+              total: 0,
+              on: 0
+            },
+            goals: {
+              total: 0,
+              conceded: 0,
+              assists: 0
+            },
+            passes: {
+              total: 15,
+              key: 2,
+              accuracy: 93
+            },
+            tackles: {
+              total: 0,
+              blocks: 0,
+              interceptions: 0
+            },
+            duels: {
+              total: 0,
+              won: 0
+            },
+            dribbles: {
+              attempts: 0,
+              success: 0,
+              past: 1
+            },
+            fouls: {
+              drawn: 0,
+              committed: 0
+            },
+            cards: {
+              yellow: 0,
+              red: 0
+            },
+            penalty: {
+              won: 0,
+              commited: 0,
+              success: 0,
+              missed: 0,
+              saved: 0
+            }
+          },
+          {
+            event_id: 214055,
+            updateAt: 1568560069,
+            player_id: 2449,
+            player_name: "Yangel Herrera",
+            team_id: 715,
+            team_name: "Granada CF",
+            number: 21,
+            position: "M",
+            rating: "6.9",
+            minutes_played: 52,
+            captain: "False",
+            substitute: "False",
+            offsides: null,
+            shots: {
+              total: 0,
+              on: 0
+            },
+            goals: {
+              total: 0,
+              conceded: 0,
+              assists: 0
+            },
+            passes: {
+              total: 28,
+              key: 1,
+              accuracy: 93
+            },
+            tackles: {
+              total: 1,
+              blocks: 0,
+              interceptions: 0
+            },
+            duels: {
+              total: 0,
+              won: 0
+            },
+            dribbles: {
+              attempts: 0,
+              success: 0,
+              past: 1
+            },
+            fouls: {
+              drawn: 0,
+              committed: 2
+            },
+            cards: {
+              yellow: 0,
+              red: 0
+            },
+            penalty: {
+              won: 0,
+              commited: 0,
+              success: 0,
+              missed: 0,
+              saved: 0
+            }
+          },
+          {
+            event_id: 214055,
+            updateAt: 1568560069,
+            player_id: 46687,
+            player_name: "Ángel Montoro",
+            team_id: 715,
+            team_name: "Granada CF",
+            number: 19,
+            position: "M",
+            rating: "7.2",
+            minutes_played: 52,
+            captain: "False",
+            substitute: "False",
+            offsides: null,
+            shots: {
+              total: 0,
+              on: 0
+            },
+            goals: {
+              total: 0,
+              conceded: 0,
+              assists: 1
+            },
+            passes: {
+              total: 34,
+              key: 2,
+              accuracy: 87
+            },
+            tackles: {
+              total: 1,
+              blocks: 0,
+              interceptions: 1
+            },
+            duels: {
+              total: 0,
+              won: 0
+            },
+            dribbles: {
+              attempts: 0,
+              success: 0,
+              past: 0
+            },
+            fouls: {
+              drawn: 0,
+              committed: 1
+            },
+            cards: {
+              yellow: 0,
+              red: 0
+            },
+            penalty: {
+              won: 0,
+              commited: 0,
+              success: 0,
+              missed: 0,
+              saved: 0
+            }
+          },
+          {
+            event_id: 214055,
+            updateAt: 1568560069,
+            player_id: 46689,
+            player_name: "Antonio Puertas",
+            team_id: 715,
+            team_name: "Granada CF",
+            number: 10,
+            position: "M",
+            rating: "6.3",
+            minutes_played: 52,
+            captain: "False",
+            substitute: "False",
+            offsides: null,
+            shots: {
+              total: 1,
+              on: 0
+            },
+            goals: {
+              total: 0,
+              conceded: 0,
+              assists: 0
+            },
+            passes: {
+              total: 18,
+              key: 0,
+              accuracy: 81
+            },
+            tackles: {
+              total: 0,
+              blocks: 0,
+              interceptions: 0
+            },
+            duels: {
+              total: 0,
+              won: 0
+            },
+            dribbles: {
+              attempts: 2,
+              success: 1,
+              past: 0
+            },
+            fouls: {
+              drawn: 1,
+              committed: 0
+            },
+            cards: {
+              yellow: 0,
+              red: 0
+            },
+            penalty: {
+              won: 0,
+              commited: 0,
+              success: 0,
+              missed: 0,
+              saved: 0
+            }
+          },
+          {
+            event_id: 214055,
+            updateAt: 1568560069,
+            player_id: 46693,
+            player_name: "Fede Vico",
+            team_id: 715,
+            team_name: "Granada CF",
+            number: 14,
+            position: "M",
+            rating: "6.3",
+            minutes_played: 51,
+            captain: "False",
+            substitute: "False",
+            offsides: null,
+            shots: {
+              total: 1,
+              on: 0
+            },
+            goals: {
+              total: 0,
+              conceded: 0,
+              assists: 0
+            },
+            passes: {
+              total: 12,
+              key: 0,
+              accuracy: 80
+            },
+            tackles: {
+              total: 0,
+              blocks: 0,
+              interceptions: 0
+            },
+            duels: {
+              total: 0,
+              won: 0
+            },
+            dribbles: {
+              attempts: 0,
+              success: 0,
+              past: 1
+            },
+            fouls: {
+              drawn: 1,
+              committed: 0
+            },
+            cards: {
+              yellow: 0,
+              red: 0
+            },
+            penalty: {
+              won: 0,
+              commited: 0,
+              success: 0,
+              missed: 0,
+              saved: 0
+            }
+          },
+          {
+            event_id: 214055,
+            updateAt: 1568560069,
+            player_id: 2459,
+            player_name: "Darwin Machís",
+            team_id: 715,
+            team_name: "Granada CF",
+            number: 23,
+            position: "M",
+            rating: "6.9",
+            minutes_played: 52,
+            captain: "False",
+            substitute: "False",
+            offsides: null,
+            shots: {
+              total: 2,
+              on: 1
+            },
+            goals: {
+              total: 0,
+              conceded: 0,
+              assists: 0
+            },
+            passes: {
+              total: 11,
+              key: 0,
+              accuracy: 73
+            },
+            tackles: {
+              total: 0,
+              blocks: 0,
+              interceptions: 0
+            },
+            duels: {
+              total: 0,
+              won: 0
+            },
+            dribbles: {
+              attempts: 2,
+              success: 2,
+              past: 0
+            },
+            fouls: {
+              drawn: 1,
+              committed: 2
+            },
+            cards: {
+              yellow: 0,
+              red: 0
+            },
+            penalty: {
+              won: 0,
+              commited: 0,
+              success: 0,
+              missed: 0,
+              saved: 0
+            }
+          },
+          {
+            event_id: 214055,
+            updateAt: 1568560069,
+            player_id: 1375,
+            player_name: "Roberto Soldado",
+            team_id: 715,
+            team_name: "Granada CF",
+            number: 9,
+            position: "F",
+            rating: "6.7",
+            minutes_played: 52,
+            captain: "False",
+            substitute: "False",
+            offsides: null,
+            shots: {
+              total: 0,
+              on: 0
+            },
+            goals: {
+              total: 0,
+              conceded: 0,
+              assists: 0
+            },
+            passes: {
+              total: 5,
+              key: 0,
+              accuracy: 83
+            },
+            tackles: {
+              total: 0,
+              blocks: 0,
+              interceptions: 0
+            },
+            duels: {
+              total: 0,
+              won: 0
+            },
+            dribbles: {
+              attempts: 0,
+              success: 0,
+              past: 0
+            },
+            fouls: {
+              drawn: 2,
+              committed: 0
+            },
+            cards: {
+              yellow: 0,
+              red: 0
+            },
+            penalty: {
+              won: 0,
+              commited: 0,
+              success: 0,
+              missed: 0,
+              saved: 0
+            }
+          },
+          {
+            event_id: 214055,
+            updateAt: 1568560069,
+            player_id: 46808,
+            player_name: "Carlos Fernández Luna",
+            team_id: 715,
+            team_name: "Granada CF",
+            number: 24,
+            position: "F",
+            rating: "–",
+            minutes_played: 1,
+            captain: "False",
+            substitute: "False",
+            offsides: null,
+            shots: {
+              total: 0,
+              on: 0
+            },
+            goals: {
+              total: 0,
+              conceded: 0,
+              assists: 0
+            },
+            passes: {
+              total: 0,
+              key: 0,
+              accuracy: 0
+            },
+            tackles: {
+              total: 0,
+              blocks: 0,
+              interceptions: 0
+            },
+            duels: {
+              total: 0,
+              won: 0
+            },
+            dribbles: {
+              attempts: 0,
+              success: 0,
+              past: 0
+            },
+            fouls: {
+              drawn: 0,
+              committed: 0
+            },
+            cards: {
+              yellow: 0,
+              red: 0
+            },
+            penalty: {
+              won: 0,
+              commited: 0,
+              success: 0,
+              missed: 0,
+              saved: 0
+            }
+          }
+        ]
+      }
+    ]
   };
 
   componentDidMount() {
@@ -1088,115 +1912,232 @@ class MatchDetails extends Component {
     const country = navigation.getParam("country");
     this.setState({ leagueName, country });
     // this.getMatchDetails(matchId);
+    // this.getMatchDetails(214055);
   }
 
   getMatchDetails = id => {
     axios
-      .get(`https://api-football-v1.p.rapidapi.com/v2/fixtures/id/${id}`)
-      .then(res => this.setState({ matchDetails: res.data.fixtures }))
+      .get(`https://api-football-v1.p.rapidapi.com/v2/fixtures/id/${id}`, {
+        headers: {
+          "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
+          "x-rapidapi-key": agntKey
+        }
+      })
+      .then(res =>
+        this.setState({
+          matchDetails: res.data.api.fixtures
+        })
+      )
       .catch(error => console.log(error));
   };
 
-  renderEvents = () => {
-    const { team_name } = this.state.dummyMatch.homeTeam;
-    return this.state.dummyMatch.events.map(event => {
-      return (
-        <View style={{ marginLeft: 10, marginRight: 10 }} key={Math.random()}>
-          {event.type === "Goal" ? (
-            <Text
-              style={
-                team_name === event.teamName
-                  ? styles.eventLeft
-                  : styles.eventRight
-              }
-            >
-              {team_name === event.teamName ? (
-                <Text>
-                  <Ionicons name="ios-football" size={15} />
+  renderFirstHalfEvents = () => {
+    return this.state.dummyMatch.map(match => {
+      const homeTeam = match.homeTeam.team_name;
+      return match.events.map(event =>
+        event.elapsed < 46 ? (
+          <View style={{ marginLeft: 10, marginRight: 10 }} key={Math.random()}>
+            {event.type === "Goal" ? (
+              <Text
+                style={
+                  homeTeam === event.teamName
+                    ? styles.eventLeft
+                    : styles.eventRight
+                }
+              >
+                {homeTeam === event.teamName ? (
                   <Text>
-                    {"  "}
-                    {event.player}
+                    <Ionicons name="ios-football" size={15} />
+                    <Text>
+                      {"  "}
+                      {event.player}
+                      <Text style={{ fontWeight: "600" }}>
+                        {"  "}
+                        {event.elapsed}'
+                      </Text>
+                    </Text>
                   </Text>
-                </Text>
-              ) : (
-                <Text>
+                ) : (
                   <Text>
-                    {event.player}
+                    <Text>
+                      <Text style={{ fontWeight: "600" }}>
+                        {event.elapsed}'{"  "}
+                      </Text>
+                      {event.player}
+                      {"  "}
+                    </Text>
+                    <Ionicons name="ios-football" size={15} />
+                  </Text>
+                )}
+              </Text>
+            ) : null}
+            {event.type === "Card" ? (
+              <Text
+                style={
+                  homeTeam === event.teamName
+                    ? styles.eventLeft
+                    : styles.eventRight
+                }
+              >
+                {homeTeam === event.teamName ? (
+                  <Text>
+                    <FontAwesome
+                      name="stop"
+                      size={15}
+                      color={
+                        event.detail === "Yellow Card"
+                          ? "rgb(255, 255, 36)"
+                          : "red"
+                      }
+                    />
+                    <Text>
+                      {"  "}
+                      {event.player}
+                      <Text style={{ fontWeight: "600" }}>
+                        {"  "}
+                        {event.elapsed}'
+                      </Text>
+                    </Text>
+                  </Text>
+                ) : (
+                  <Text>
+                    <Text>
+                      <Text style={{ fontWeight: "600" }}>
+                        {event.elapsed}'{"  "}
+                      </Text>
+                      {event.player}
+                      {"  "}
+                    </Text>
+                    <FontAwesome
+                      name="stop"
+                      size={15}
+                      color={
+                        event.detail === "Yellow Card"
+                          ? "rgb(255, 255, 36)"
+                          : "red"
+                      }
+                    />
+                  </Text>
+                )}
+              </Text>
+            ) : null}
+            {event.type === "subst" ? (
+              <Text
+                style={
+                  homeTeam === event.teamName
+                    ? styles.eventLeft
+                    : styles.eventRight
+                }
+              >
+                {homeTeam === event.teamName ? (
+                  <Text>
+                    <Text>{event.detail}</Text>
+                    {"  "}
+                    <FontAwesome name="exchange" size={15} />
+                    <Text>
+                      {"  "}
+                      <Text style={{ color: "rgba(0,0,0,0.5)" }}>
+                        {event.player}
+                      </Text>
+                      <Text style={{ fontWeight: "600" }}>
+                        {"  "}
+                        {event.elapsed}'
+                      </Text>
+                    </Text>
+                  </Text>
+                ) : (
+                  <Text>
+                    <Text>
+                      <Text style={{ fontWeight: "600" }}>
+                        {event.elapsed}'{"  "}
+                      </Text>
+                      <Text style={{ color: "rgba(0,0,0,0.5)" }}>
+                        {event.player}
+                      </Text>
+                      {"  "}
+                    </Text>
+                    <FontAwesome name="exchange" size={15} />
+                    {"  "}
+                    <Text>{event.detail}</Text>
                     {"  "}
                   </Text>
-                  <Ionicons name="ios-football" size={15} />
-                </Text>
-              )}
-            </Text>
-          ) : null}
-        </View>
+                )}
+              </Text>
+            ) : null}
+          </View>
+        ) : null
       );
     });
   };
 
   render() {
     // console.log(this.state.matchDetails);
-    return (
-      <View style={styles.container}>
-        <View style={styles.innerTopContainer}>
-          <View style={styles.leagueNameContainer}>
-            <Text style={styles.leagueName}>
-              {this.state.country}:{" "}
-              <Text style={{ fontWeight: "600" }}>{this.state.leagueName}</Text>
-            </Text>
-          </View>
-          <View style={styles.dateContainer}>
-            <Text style={styles.date}>
-              {moment(this.state.dummyMatch.event_date).format("DD.MMM.YYYY")}
-            </Text>
-            <Text style={styles.date}>-</Text>
-            <Text style={styles.date}>
-              {moment(this.state.dummyMatch.event_date).format("HH:mm")}
-            </Text>
-          </View>
-          <View style={styles.logosAndScoreContainer}>
-            <View style={styles.teamLogos}>
-              <Image
-                style={{
-                  width: 50,
-                  height: 50
-                }}
-                source={{ uri: this.state.dummyMatch.homeTeam.logo }}
-              />
-              <Text style={styles.teamNames}>
-                {this.state.dummyMatch.homeTeam.team_name}
+    return this.state.dummyMatch.length > 0 ? (
+      this.state.dummyMatch.map(match => (
+        <View key={match.fixture_id} style={styles.container}>
+          <View style={styles.innerTopContainer}>
+            <View style={styles.leagueNameContainer}>
+              <Text style={styles.leagueName}>
+                {this.state.country}:{" "}
+                <Text style={{ fontWeight: "600" }}>
+                  {this.state.leagueName}
+                </Text>
               </Text>
             </View>
-            <View style={styles.score}>
-              <Text
-                style={{ fontSize: 20, fontWeight: "600", textAlign: "center" }}
-              >
-                {this.state.dummyMatch.goalsHomeTeam} -{" "}
-                {this.state.dummyMatch.goalsAwayTeam}
+            <View style={styles.dateContainer}>
+              <Text style={styles.date}>
+                {moment(match.event_date).format("DD.MMM.YYYY")}
               </Text>
-              <Text style={{ fontSize: 10, textAlign: "center" }}>
-                {this.state.dummyMatch.status === "Match Finished"
-                  ? "Final"
-                  : this.state.dummyMatch.elapsed}
+              <Text style={styles.date}>-</Text>
+              <Text style={styles.date}>
+                {moment(match.event_date).format("HH:mm")}
               </Text>
             </View>
-            <View style={styles.teamLogos}>
-              <Image
-                style={{ width: 50, height: 50 }}
-                source={{ uri: this.state.dummyMatch.awayTeam.logo }}
-              />
-              <Text style={styles.teamNames}>
-                {this.state.dummyMatch.awayTeam.team_name}
+            <View style={styles.logosAndScoreContainer}>
+              <View style={styles.teamLogos}>
+                <Image
+                  style={{
+                    width: 50,
+                    height: 50
+                  }}
+                  source={{ uri: match.homeTeam.logo }}
+                />
+                <Text style={styles.teamNames}>{match.homeTeam.team_name}</Text>
+              </View>
+              <View style={styles.score}>
+                <Text
+                  style={{
+                    fontSize: 20,
+                    fontWeight: "600",
+                    textAlign: "center"
+                  }}
+                >
+                  {match.goalsHomeTeam} - {match.goalsAwayTeam}
+                </Text>
+                <Text style={{ fontSize: 10, textAlign: "center" }}>
+                  {match.status === "Match Finished" ? "Final" : match.elapsed}
+                </Text>
+              </View>
+              <View style={styles.teamLogos}>
+                <Image
+                  style={{ width: 50, height: 50 }}
+                  source={{ uri: match.awayTeam.logo }}
+                />
+                <Text style={styles.teamNames}>{match.awayTeam.team_name}</Text>
+              </View>
+            </View>
+            <View style={styles.firstHalfContainer}>
+              <Text style={styles.firstHalf}>
+                1st Half: {match.score.halftime}
               </Text>
             </View>
           </View>
-          <View style={styles.firstHalfContainer}>
-            <Text style={styles.firstHalf}>
-              1st Half: {this.state.dummyMatch.score.halftime}
-            </Text>
-          </View>
+          {this.renderFirstHalfEvents()}
         </View>
-        {this.renderEvents()}
+      ))
+    ) : (
+      <View>
+        <Text>Fetching match details</Text>
       </View>
     );
   }
