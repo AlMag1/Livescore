@@ -4,7 +4,6 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  TouchableWithoutFeedback,
   TouchableOpacity,
   Image
 } from "react-native";
@@ -767,8 +766,6 @@ const styles = StyleSheet.create({
     marginRight: "auto"
   },
   imageContainer: {
-    // justifyContent: "center",
-    // alignItems: "center",
     width: "20%"
   },
   bold: {

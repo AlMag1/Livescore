@@ -2,20 +2,13 @@ import React, { Component } from "react";
 import {
   Text,
   View,
-  Button,
   ScrollView,
   StyleSheet,
   Image,
-  Modal,
-  TouchableWithoutFeedback,
-  TouchableHighlight
+  TouchableOpacity
 } from "react-native";
 import axios from "axios";
 import moment from "moment";
-import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import { HeaderBackButton } from "react-navigation";
-
-import HeaderButton from "../components/HeaderButton";
 import { agntKey, basicKey } from "../constants/apiKeys";
 
 class FootballScores extends Component {
@@ -669,7 +662,7 @@ class FootballScores extends Component {
       <ScrollView style={styles.container}>
         {this.state.dummyFixtures.length > 0 ? (
           this.state.dummyFixtures.map(match => (
-            <TouchableWithoutFeedback
+            <TouchableOpacity
               key={match.fixture_id}
               onPress={() =>
                 this.props.navigation.navigate("MatchDetails", {
@@ -702,7 +695,7 @@ class FootballScores extends Component {
                   <Text style={styles.scores}>{match.goalsAwayTeam}</Text>
                 </View>
               </View>
-            </TouchableWithoutFeedback>
+            </TouchableOpacity>
           ))
         ) : (
           <Text>No scores yet</Text>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import axios from "axios";
 import moment from "moment";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
@@ -125,44 +125,62 @@ class MatchDetails extends Component {
             type: "Goal",
             detail: "Normal Goal"
           },
-          // {
-          //   elapsed: 40,
-          //   team_id: 715,
-          //   teamName: "Celta Vigo",
-          //   player_id: 46683,
-          //   player: "Aris Player",
-          //   type: "Goal",
-          //   detail: "Normal Goal"
-          // },
-          // {
-          //   elapsed: 23,
-          //   team_id: 715,
-          //   teamName: "Granada CF",
-          //   player_id: 46683,
-          //   player: "G. Sanchez",
-          //   type: "Goal",
-          //   detail: "Normal Goal"
-          // },
-          // {
-          //   elapsed: 39,
-          //   team_id: 715,
-          //   teamName: "Celta Vigo",
-          //   player_id: 46683,
-          //   player: "Lalakis lalakiou",
-          //   type: "Goal",
-          //   detail: "Normal Goal"
-          // },
-          // {
-          //   elapsed: 47,
-          //   team_id: 715,
-          //   teamName: "Granada CF",
-          //   player_id: 46683,
-          //   player: "Djibril Cisse",
-          //   type: "Goal",
-          //   detail: "Normal Goal"
-          // },
           {
             elapsed: 45,
+            team_id: 715,
+            teamName: "Granada CF",
+            player_id: 46808,
+            player: "C. Fernandez",
+            type: "subst",
+            detail: "F. Vico"
+          },
+          {
+            elapsed: 49,
+            team_id: 715,
+            teamName: "Granada CF",
+            player_id: 46683,
+            player: "G. Sanchez",
+            type: "Goal",
+            detail: "Normal Goal"
+          },
+          {
+            elapsed: 52,
+            team_id: 538,
+            teamName: "Celta Vigo",
+            player_id: 934,
+            player: "S. Mina",
+            type: "Card",
+            detail: "Yellow Card"
+          },
+          {
+            elapsed: 63,
+            team_id: 715,
+            teamName: "Granada CF",
+            player_id: 46677,
+            player: "V. Diaz",
+            type: "Card",
+            detail: "Yellow Card"
+          },
+          {
+            elapsed: 87,
+            team_id: 538,
+            teamName: "Celta Vigo",
+            player_id: 1461,
+            player: "D. Suarez",
+            type: "Card",
+            detail: "Yellow Card"
+          },
+          {
+            elapsed: 89,
+            team_id: 715,
+            teamName: "Granada CF",
+            player_id: 46683,
+            player: "G. Sanchez",
+            type: "Goal",
+            detail: "Normal Goal"
+          },
+          {
+            elapsed: 90,
             team_id: 715,
             teamName: "Granada CF",
             player_id: 46808,
@@ -2070,11 +2088,150 @@ class MatchDetails extends Component {
     });
   };
 
+  renderSecondHalfEvents = () => {
+    return this.state.dummyMatch.map(match => {
+      const homeTeam = match.homeTeam.team_name;
+      return match.events.map(event =>
+        event.elapsed > 45 ? (
+          <View style={{ marginLeft: 10, marginRight: 10 }} key={Math.random()}>
+            {event.type === "Goal" ? (
+              <Text
+                style={
+                  homeTeam === event.teamName
+                    ? styles.eventLeft
+                    : styles.eventRight
+                }
+              >
+                {homeTeam === event.teamName ? (
+                  <Text>
+                    <Ionicons name="ios-football" size={15} />
+                    <Text>
+                      {"  "}
+                      {event.player}
+                      <Text style={{ fontWeight: "600" }}>
+                        {"  "}
+                        {event.elapsed}'
+                      </Text>
+                    </Text>
+                  </Text>
+                ) : (
+                  <Text>
+                    <Text>
+                      <Text style={{ fontWeight: "600" }}>
+                        {event.elapsed}'{"  "}
+                      </Text>
+                      {event.player}
+                      {"  "}
+                    </Text>
+                    <Ionicons name="ios-football" size={15} />
+                  </Text>
+                )}
+              </Text>
+            ) : null}
+            {event.type === "Card" ? (
+              <Text
+                style={
+                  homeTeam === event.teamName
+                    ? styles.eventLeft
+                    : styles.eventRight
+                }
+              >
+                {homeTeam === event.teamName ? (
+                  <Text>
+                    <FontAwesome
+                      name="stop"
+                      size={15}
+                      color={
+                        event.detail === "Yellow Card"
+                          ? "rgb(255, 255, 36)"
+                          : "red"
+                      }
+                    />
+                    <Text>
+                      {"  "}
+                      {event.player}
+                      <Text style={{ fontWeight: "600" }}>
+                        {"  "}
+                        {event.elapsed}'
+                      </Text>
+                    </Text>
+                  </Text>
+                ) : (
+                  <Text>
+                    <Text>
+                      <Text style={{ fontWeight: "600" }}>
+                        {event.elapsed}'{"  "}
+                      </Text>
+                      {event.player}
+                      {"  "}
+                    </Text>
+                    <FontAwesome
+                      name="stop"
+                      size={15}
+                      color={
+                        event.detail === "Yellow Card"
+                          ? "rgb(255, 255, 36)"
+                          : "red"
+                      }
+                    />
+                  </Text>
+                )}
+              </Text>
+            ) : null}
+            {event.type === "subst" ? (
+              <Text
+                style={
+                  homeTeam === event.teamName
+                    ? styles.eventLeft
+                    : styles.eventRight
+                }
+              >
+                {homeTeam === event.teamName ? (
+                  <Text>
+                    <Text>{event.detail}</Text>
+                    {"  "}
+                    <FontAwesome name="exchange" size={15} />
+                    <Text>
+                      {"  "}
+                      <Text style={{ color: "rgba(0,0,0,0.5)" }}>
+                        {event.player}
+                      </Text>
+                      <Text style={{ fontWeight: "600" }}>
+                        {"  "}
+                        {event.elapsed}'
+                      </Text>
+                    </Text>
+                  </Text>
+                ) : (
+                  <Text>
+                    <Text>
+                      <Text style={{ fontWeight: "600" }}>
+                        {event.elapsed}'{"  "}
+                      </Text>
+                      <Text style={{ color: "rgba(0,0,0,0.5)" }}>
+                        {event.player}
+                      </Text>
+                      {"  "}
+                    </Text>
+                    <FontAwesome name="exchange" size={15} />
+                    {"  "}
+                    <Text>{event.detail}</Text>
+                    {"  "}
+                  </Text>
+                )}
+              </Text>
+            ) : null}
+          </View>
+        ) : null
+      );
+    });
+  };
+
   render() {
     // console.log(this.state.matchDetails);
     return this.state.dummyMatch.length > 0 ? (
       this.state.dummyMatch.map(match => (
-        <View key={match.fixture_id} style={styles.container}>
+        <ScrollView key={match.fixture_id} style={styles.container}>
           <View style={styles.innerTopContainer}>
             <View style={styles.leagueNameContainer}>
               <Text style={styles.leagueName}>
@@ -2128,12 +2285,18 @@ class MatchDetails extends Component {
             </View>
             <View style={styles.firstHalfContainer}>
               <Text style={styles.firstHalf}>
-                1st Half: {match.score.halftime}
+                1st Half: {match.goalsHomeTeam} - {match.goalsAwayTeam}
               </Text>
             </View>
           </View>
           {this.renderFirstHalfEvents()}
-        </View>
+          <View style={styles.secondHalfContainer}>
+            <Text style={styles.firstHalf}>
+              2nd Half: {match.goalsHomeTeam} - {match.goalsAwayTeam}
+            </Text>
+          </View>
+          {this.renderSecondHalfEvents()}
+        </ScrollView>
       ))
     ) : (
       <View>
@@ -2216,6 +2379,14 @@ const styles = StyleSheet.create({
     textAlign: "right",
     marginTop: 10,
     marginBottom: 5
+  },
+  secondHalfContainer: {
+    backgroundColor: "rgb(237, 241, 242)",
+    borderBottomColor: "rgb(207, 212, 209)",
+    borderBottomWidth: 1,
+    borderTopColor: "rgb(207, 212, 209)",
+    borderTopWidth: 1,
+    paddingTop: 10
   }
 });
 
