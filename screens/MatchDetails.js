@@ -1,13 +1,17 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import { ButtonGroup } from "react-native-elements";
 import axios from "axios";
 import moment from "moment";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { agntKey, basicKey } from "../constants/apiKeys";
+import HalfEvents from "../components/HalfEvents";
+import Statistics from "../components/Statistics";
 
 class MatchDetails extends Component {
   state = {
     matchDetails: [],
+    selectedIndex: 0,
     leagueName: "",
     country: "",
     matchId: 0,
@@ -1923,13 +1927,22 @@ class MatchDetails extends Component {
     ]
   };
 
+  updateIndex = selectedIndex => {
+    this.setState({ selectedIndex });
+  };
+
+  summary = () => <Text>Summary</Text>;
+  stats = () => <Text>Stats</Text>;
+  chat = () => <Text>Chat</Text>;
+  lineups = () => <Text>Line Ups</Text>;
+
   componentDidMount() {
     const { navigation } = this.props;
     const matchId = navigation.getParam("matchId");
     const leagueName = navigation.getParam("leagueName");
     const country = navigation.getParam("country");
     this.setState({ leagueName, country });
-    // this.getMatchDetails(matchId);
+    this.getMatchDetails(matchId);
     // this.getMatchDetails(214055);
   }
 
@@ -1938,7 +1951,7 @@ class MatchDetails extends Component {
       .get(`https://api-football-v1.p.rapidapi.com/v2/fixtures/id/${id}`, {
         headers: {
           "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
-          "x-rapidapi-key": agntKey
+          "x-rapidapi-key": basicKey
         }
       })
       .then(res =>
@@ -1949,288 +1962,17 @@ class MatchDetails extends Component {
       .catch(error => console.log(error));
   };
 
-  renderFirstHalfEvents = () => {
-    return this.state.dummyMatch.map(match => {
-      const homeTeam = match.homeTeam.team_name;
-      return match.events.map(event =>
-        event.elapsed < 46 ? (
-          <View style={{ marginLeft: 10, marginRight: 10 }} key={Math.random()}>
-            {event.type === "Goal" ? (
-              <Text
-                style={
-                  homeTeam === event.teamName
-                    ? styles.eventLeft
-                    : styles.eventRight
-                }
-              >
-                {homeTeam === event.teamName ? (
-                  <Text>
-                    <Ionicons name="ios-football" size={15} />
-                    <Text>
-                      {"  "}
-                      {event.player}
-                      <Text style={{ fontWeight: "600" }}>
-                        {"  "}
-                        {event.elapsed}'
-                      </Text>
-                    </Text>
-                  </Text>
-                ) : (
-                  <Text>
-                    <Text>
-                      <Text style={{ fontWeight: "600" }}>
-                        {event.elapsed}'{"  "}
-                      </Text>
-                      {event.player}
-                      {"  "}
-                    </Text>
-                    <Ionicons name="ios-football" size={15} />
-                  </Text>
-                )}
-              </Text>
-            ) : null}
-            {event.type === "Card" ? (
-              <Text
-                style={
-                  homeTeam === event.teamName
-                    ? styles.eventLeft
-                    : styles.eventRight
-                }
-              >
-                {homeTeam === event.teamName ? (
-                  <Text>
-                    <FontAwesome
-                      name="stop"
-                      size={15}
-                      color={
-                        event.detail === "Yellow Card"
-                          ? "rgb(255, 255, 36)"
-                          : "red"
-                      }
-                    />
-                    <Text>
-                      {"  "}
-                      {event.player}
-                      <Text style={{ fontWeight: "600" }}>
-                        {"  "}
-                        {event.elapsed}'
-                      </Text>
-                    </Text>
-                  </Text>
-                ) : (
-                  <Text>
-                    <Text>
-                      <Text style={{ fontWeight: "600" }}>
-                        {event.elapsed}'{"  "}
-                      </Text>
-                      {event.player}
-                      {"  "}
-                    </Text>
-                    <FontAwesome
-                      name="stop"
-                      size={15}
-                      color={
-                        event.detail === "Yellow Card"
-                          ? "rgb(255, 255, 36)"
-                          : "red"
-                      }
-                    />
-                  </Text>
-                )}
-              </Text>
-            ) : null}
-            {event.type === "subst" ? (
-              <Text
-                style={
-                  homeTeam === event.teamName
-                    ? styles.eventLeft
-                    : styles.eventRight
-                }
-              >
-                {homeTeam === event.teamName ? (
-                  <Text>
-                    <Text>{event.detail}</Text>
-                    {"  "}
-                    <FontAwesome name="exchange" size={15} />
-                    <Text>
-                      {"  "}
-                      <Text style={{ color: "rgba(0,0,0,0.5)" }}>
-                        {event.player}
-                      </Text>
-                      <Text style={{ fontWeight: "600" }}>
-                        {"  "}
-                        {event.elapsed}'
-                      </Text>
-                    </Text>
-                  </Text>
-                ) : (
-                  <Text>
-                    <Text>
-                      <Text style={{ fontWeight: "600" }}>
-                        {event.elapsed}'{"  "}
-                      </Text>
-                      <Text style={{ color: "rgba(0,0,0,0.5)" }}>
-                        {event.player}
-                      </Text>
-                      {"  "}
-                    </Text>
-                    <FontAwesome name="exchange" size={15} />
-                    {"  "}
-                    <Text>{event.detail}</Text>
-                    {"  "}
-                  </Text>
-                )}
-              </Text>
-            ) : null}
-          </View>
-        ) : null
-      );
-    });
-  };
-
-  renderSecondHalfEvents = () => {
-    return this.state.dummyMatch.map(match => {
-      const homeTeam = match.homeTeam.team_name;
-      return match.events.map(event =>
-        event.elapsed > 45 ? (
-          <View style={{ marginLeft: 10, marginRight: 10 }} key={Math.random()}>
-            {event.type === "Goal" ? (
-              <Text
-                style={
-                  homeTeam === event.teamName
-                    ? styles.eventLeft
-                    : styles.eventRight
-                }
-              >
-                {homeTeam === event.teamName ? (
-                  <Text>
-                    <Ionicons name="ios-football" size={15} />
-                    <Text>
-                      {"  "}
-                      {event.player}
-                      <Text style={{ fontWeight: "600" }}>
-                        {"  "}
-                        {event.elapsed}'
-                      </Text>
-                    </Text>
-                  </Text>
-                ) : (
-                  <Text>
-                    <Text>
-                      <Text style={{ fontWeight: "600" }}>
-                        {event.elapsed}'{"  "}
-                      </Text>
-                      {event.player}
-                      {"  "}
-                    </Text>
-                    <Ionicons name="ios-football" size={15} />
-                  </Text>
-                )}
-              </Text>
-            ) : null}
-            {event.type === "Card" ? (
-              <Text
-                style={
-                  homeTeam === event.teamName
-                    ? styles.eventLeft
-                    : styles.eventRight
-                }
-              >
-                {homeTeam === event.teamName ? (
-                  <Text>
-                    <FontAwesome
-                      name="stop"
-                      size={15}
-                      color={
-                        event.detail === "Yellow Card"
-                          ? "rgb(255, 255, 36)"
-                          : "red"
-                      }
-                    />
-                    <Text>
-                      {"  "}
-                      {event.player}
-                      <Text style={{ fontWeight: "600" }}>
-                        {"  "}
-                        {event.elapsed}'
-                      </Text>
-                    </Text>
-                  </Text>
-                ) : (
-                  <Text>
-                    <Text>
-                      <Text style={{ fontWeight: "600" }}>
-                        {event.elapsed}'{"  "}
-                      </Text>
-                      {event.player}
-                      {"  "}
-                    </Text>
-                    <FontAwesome
-                      name="stop"
-                      size={15}
-                      color={
-                        event.detail === "Yellow Card"
-                          ? "rgb(255, 255, 36)"
-                          : "red"
-                      }
-                    />
-                  </Text>
-                )}
-              </Text>
-            ) : null}
-            {event.type === "subst" ? (
-              <Text
-                style={
-                  homeTeam === event.teamName
-                    ? styles.eventLeft
-                    : styles.eventRight
-                }
-              >
-                {homeTeam === event.teamName ? (
-                  <Text>
-                    <Text>{event.detail}</Text>
-                    {"  "}
-                    <FontAwesome name="exchange" size={15} />
-                    <Text>
-                      {"  "}
-                      <Text style={{ color: "rgba(0,0,0,0.5)" }}>
-                        {event.player}
-                      </Text>
-                      <Text style={{ fontWeight: "600" }}>
-                        {"  "}
-                        {event.elapsed}'
-                      </Text>
-                    </Text>
-                  </Text>
-                ) : (
-                  <Text>
-                    <Text>
-                      <Text style={{ fontWeight: "600" }}>
-                        {event.elapsed}'{"  "}
-                      </Text>
-                      <Text style={{ color: "rgba(0,0,0,0.5)" }}>
-                        {event.player}
-                      </Text>
-                      {"  "}
-                    </Text>
-                    <FontAwesome name="exchange" size={15} />
-                    {"  "}
-                    <Text>{event.detail}</Text>
-                    {"  "}
-                  </Text>
-                )}
-              </Text>
-            ) : null}
-          </View>
-        ) : null
-      );
-    });
-  };
-
   render() {
     // console.log(this.state.matchDetails);
-    return this.state.dummyMatch.length > 0 ? (
-      this.state.dummyMatch.map(match => (
+    const buttons = [
+      { element: this.summary },
+      { element: this.stats },
+      { element: this.lineups },
+      { element: this.chat }
+    ];
+    const { selectedIndex } = this.state;
+    return this.state.matchDetails.length > 0 ? (
+      this.state.matchDetails.map(match => (
         <ScrollView key={match.fixture_id} style={styles.container}>
           <View style={styles.innerTopContainer}>
             <View style={styles.leagueNameContainer}>
@@ -2283,19 +2025,41 @@ class MatchDetails extends Component {
                 <Text style={styles.teamNames}>{match.awayTeam.team_name}</Text>
               </View>
             </View>
-            <View style={styles.firstHalfContainer}>
-              <Text style={styles.firstHalf}>
-                1st Half: {match.goalsHomeTeam} - {match.goalsAwayTeam}
-              </Text>
-            </View>
           </View>
-          {this.renderFirstHalfEvents()}
-          <View style={styles.secondHalfContainer}>
-            <Text style={styles.firstHalf}>
-              2nd Half: {match.goalsHomeTeam} - {match.goalsAwayTeam}
-            </Text>
-          </View>
-          {this.renderSecondHalfEvents()}
+          <ButtonGroup
+            onPress={this.updateIndex}
+            selectedIndex={selectedIndex}
+            buttons={buttons}
+            containerStyle={{
+              borderWidth: 0,
+              width: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+              alignContent: "center",
+              flexDirection: "row",
+              marginLeft: 0,
+              marginTop: 0,
+              marginBottom: 0,
+              marginRight: 0,
+              borderRadius: 0
+            }}
+            innerBorderStyle={{
+              width: 0
+            }}
+            selectedButtonStyle={{
+              backgroundColor: "rgb(77, 122, 201)"
+            }}
+          />
+          {selectedIndex === 0 ? (
+            <HalfEvents
+              goalsHome={match.goalsHomeTeam}
+              goalsAway={match.goalsAwayTeam}
+              secondHalfStart={match.secondHalfStart}
+              status={match.status}
+              matchDetails={this.state.matchDetails}
+            />
+          ) : null}
+          {/* {selectedIndex === 1 ? <Statistics stats={match.statistics} /> : null} */}
         </ScrollView>
       ))
     ) : (
@@ -2342,12 +2106,6 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     paddingBottom: 5
   },
-  score: {
-    marginTop: "auto",
-    marginBottom: "auto",
-    flexDirection: "column",
-    minWidth: 100
-  },
   teamLogos: {
     flexDirection: "column",
     justifyContent: "center",
@@ -2359,34 +2117,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 10,
     maxWidth: 100
-  },
-  firstHalfContainer: {
-    backgroundColor: "rgb(237, 241, 242)",
-    marginTop: 10,
-    borderBottomColor: "rgb(207, 212, 209)",
-    borderBottomWidth: 1
-  },
-  firstHalf: {
-    textAlign: "center",
-    marginBottom: 10
-  },
-  eventLeft: {
-    textAlign: "left",
-    marginTop: 10,
-    marginBottom: 5
-  },
-  eventRight: {
-    textAlign: "right",
-    marginTop: 10,
-    marginBottom: 5
-  },
-  secondHalfContainer: {
-    backgroundColor: "rgb(237, 241, 242)",
-    borderBottomColor: "rgb(207, 212, 209)",
-    borderBottomWidth: 1,
-    borderTopColor: "rgb(207, 212, 209)",
-    borderTopWidth: 1,
-    paddingTop: 10
   }
 });
 

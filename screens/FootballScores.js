@@ -637,7 +637,7 @@ class FootballScores extends Component {
     const leagueName = navigation.getParam("leagueName");
     const country = navigation.getParam("country");
     this.setState({ leagueName, country });
-    // this.getFixtures(leagueId);
+    this.getFixtures(leagueId);
   }
 
   getFixtures = leagueId => {
@@ -647,7 +647,7 @@ class FootballScores extends Component {
         {
           headers: {
             "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
-            "x-rapidapi-key": agntKey
+            "x-rapidapi-key": basicKey
           }
         }
       )
@@ -660,8 +660,8 @@ class FootballScores extends Component {
   render() {
     return (
       <ScrollView style={styles.container}>
-        {this.state.dummyFixtures.length > 0 ? (
-          this.state.dummyFixtures.map(match => (
+        {this.state.fixtures.length > 0 ? (
+          this.state.fixtures.map(match => (
             <TouchableOpacity
               key={match.fixture_id}
               onPress={() =>
