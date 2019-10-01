@@ -2052,8 +2052,10 @@ class MatchDetails extends Component {
           />
           {selectedIndex === 0 ? (
             <HalfEvents
-              goalsHome={match.goalsHomeTeam}
-              goalsAway={match.goalsAwayTeam}
+              halfTimeScore={match.score.halftime}
+              fullTimeScore={match.score.fulltime}
+              goalsHomeTeam={match.goalsHomeTeam}
+              goalsAwayTeam={match.goalsAwayTeam}
               secondHalfStart={match.secondHalfStart}
               status={match.status}
               matchDetails={this.state.matchDetails}

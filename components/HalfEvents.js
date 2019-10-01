@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  ScrollView,
+  ViewComponent
+} from "react-native";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 
 class HalfEvents extends Component {
@@ -19,7 +26,13 @@ class HalfEvents extends Component {
               >
                 {homeTeam === event.teamName ? (
                   <Text>
-                    <Ionicons name="ios-football" size={15} />
+                    <Ionicons
+                      name="ios-football"
+                      size={15}
+                      color={
+                        event.detail === "Missed Penalty" ? "red" : "black"
+                      }
+                    />
                     <Text>
                       {"  "}
                       {event.player}
@@ -158,7 +171,13 @@ class HalfEvents extends Component {
               >
                 {homeTeam === event.teamName ? (
                   <Text>
-                    <Ionicons name="ios-football" size={15} />
+                    <Ionicons
+                      name="ios-football"
+                      size={15}
+                      color={
+                        event.detail === "Missed Penalty" ? "red" : "black"
+                      }
+                    />
                     <Text>
                       {"  "}
                       {event.player}
@@ -282,18 +301,25 @@ class HalfEvents extends Component {
   };
 
   render() {
+    console.log(this.props.matchDetails);
     return this.props.status !== "Not Started" ? (
       <View>
         <View style={styles.firstHalfContainer}>
           <Text style={styles.firstHalf}>
-            1st Half: {this.props.goalsHome} - {this.props.goalsAway}
+            1st Half:{" "}
+            {this.props.halfTimeScore === null
+              ? `${this.props.goalsHomeTeam} - ${this.props.goalsAwayTeam}`
+              : this.props.halfTimeScore}
           </Text>
         </View>
         {this.renderFirstHalfEvents()}
         {this.props.secondHalfStart ? (
           <View style={styles.secondHalfContainer}>
             <Text style={styles.firstHalf}>
-              2nd Half: {this.props.goalsHome} - {this.props.goalsAway}
+              2nd Half:{" "}
+              {this.props.fullTimeScore === null
+                ? `${this.props.goalsHomeTeam} - ${this.props.goalsAwayTeam}`
+                : this.props.fullTimeScore}
             </Text>
           </View>
         ) : null}
