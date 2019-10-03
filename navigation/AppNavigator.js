@@ -35,7 +35,7 @@ const ScoreNavigator = createStackNavigator({
   MatchDetails: {
     screen: MatchDetails,
     navigationOptions: {
-      title: "Match Details",
+      title: "Details",
       headerStyle: {
         textAlign: "center",
         backgroundColor: "rgb(77, 122, 201)"

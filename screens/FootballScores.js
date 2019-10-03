@@ -49,7 +49,7 @@ class FootballScores extends Component {
         },
         secondHalfStart: 1566649800,
         status: "Second Half",
-        statusShort: "2H",
+        statusShort: "FT",
         venue: null
       },
       {
@@ -637,7 +637,7 @@ class FootballScores extends Component {
     const leagueName = navigation.getParam("leagueName");
     const country = navigation.getParam("country");
     this.setState({ leagueName, country });
-    this.getFixtures(leagueId);
+    // this.getFixtures(leagueId);
   }
 
   getFixtures = leagueId => {
@@ -660,8 +660,8 @@ class FootballScores extends Component {
   render() {
     return (
       <ScrollView style={styles.container}>
-        {this.state.fixtures.length > 0 ? (
-          this.state.fixtures.map(match => (
+        {this.state.dummyFixtures.length > 0 ? (
+          this.state.dummyFixtures.map(match => (
             <TouchableOpacity
               key={match.fixture_id}
               onPress={() =>
@@ -688,7 +688,11 @@ class FootballScores extends Component {
                   <Text style={styles.teams}>{match.awayTeam.team_name}</Text>
                 </View>
                 <View style={styles.elapsed}>
-                  <Text>{match.elapsed}'</Text>
+                  <Text>
+                    {match.statusShort === "FT"
+                      ? match.statusShort
+                      : match.elapsed + `'`}
+                  </Text>
                 </View>
                 <View style={styles.scoresContainer}>
                   <Text style={styles.scores}>{match.goalsHomeTeam}</Text>

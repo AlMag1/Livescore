@@ -301,9 +301,9 @@ class HalfEvents extends Component {
   };
 
   render() {
-    console.log(this.props.matchDetails);
+    // console.log(this.props.matchDetails);
     return this.props.status !== "Not Started" ? (
-      <View>
+      <ScrollView>
         <View style={styles.firstHalfContainer}>
           <Text style={styles.firstHalf}>
             1st Half:{" "}
@@ -325,7 +325,7 @@ class HalfEvents extends Component {
         ) : null}
 
         {this.renderSecondHalfEvents()}
-      </View>
+      </ScrollView>
     ) : (
       <View>
         <Text>Match not started</Text>
@@ -345,8 +345,6 @@ const styles = StyleSheet.create({
     backgroundColor: "rgb(237, 241, 242)",
     borderBottomColor: "rgb(207, 212, 209)",
     borderBottomWidth: 1,
-    borderTopColor: "rgb(207, 212, 209)",
-    borderTopWidth: 1,
     height: 30,
     justifyContent: "center",
     alignItems: "center"

@@ -7,6 +7,7 @@ import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { agntKey, basicKey } from "../constants/apiKeys";
 import HalfEvents from "../components/HalfEvents";
 import Statistics from "../components/Statistics";
+import LineUps from "../components/LineUps";
 
 class MatchDetails extends Component {
   state = {
@@ -1942,7 +1943,7 @@ class MatchDetails extends Component {
     const leagueName = navigation.getParam("leagueName");
     const country = navigation.getParam("country");
     this.setState({ leagueName, country });
-    this.getMatchDetails(matchId);
+    // this.getMatchDetails(matchId);
     // this.getMatchDetails(214055);
   }
 
@@ -1971,9 +1972,9 @@ class MatchDetails extends Component {
       { element: this.chat }
     ];
     const { selectedIndex } = this.state;
-    return this.state.matchDetails.length > 0 ? (
-      this.state.matchDetails.map(match => (
-        <ScrollView key={match.fixture_id} style={styles.container}>
+    return this.state.dummyMatch.length > 0 ? (
+      this.state.dummyMatch.map(match => (
+        <View key={match.fixture_id} style={styles.container}>
           <View style={styles.innerTopContainer}>
             <View style={styles.leagueNameContainer}>
               <Text style={styles.leagueName}>
@@ -2032,6 +2033,8 @@ class MatchDetails extends Component {
             buttons={buttons}
             containerStyle={{
               borderWidth: 0,
+              borderBottomWidth: 1,
+              borderBottomColor: "rgb(207, 212, 209)",
               width: "100%",
               justifyContent: "center",
               alignItems: "center",
@@ -2058,11 +2061,18 @@ class MatchDetails extends Component {
               goalsAwayTeam={match.goalsAwayTeam}
               secondHalfStart={match.secondHalfStart}
               status={match.status}
-              matchDetails={this.state.matchDetails}
+              matchDetails={this.state.dummyMatch}
             />
           ) : null}
-          {/* {selectedIndex === 1 ? <Statistics stats={match.statistics} /> : null} */}
-        </ScrollView>
+          {selectedIndex === 1 ? <Statistics stats={match.statistics} /> : null}
+          {selectedIndex === 2 ? (
+            <LineUps
+              data={match.lineups}
+              homeTeam={match.homeTeam.team_name}
+              awayTeam={match.awayTeam.team_name}
+            />
+          ) : null}
+        </View>
       ))
     ) : (
       <View>

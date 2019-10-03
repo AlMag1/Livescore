@@ -570,7 +570,7 @@ class FootballLeaguesScreen extends Component {
   };
 
   componentDidMount() {
-    this.getLeagues();
+    // this.getLeagues();
   }
 
   static navigationOptions = navData => {
@@ -726,7 +726,7 @@ class FootballLeaguesScreen extends Component {
       <ScrollView style={styles.container}>
         {this.renderFavoriteLeagues()}
         {/* {this.renderDummyLeagues()} */}
-        {this.renderLeagues()}
+        {/* {this.renderLeagues()} */}
       </ScrollView>
     );
   }
