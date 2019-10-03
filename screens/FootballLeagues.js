@@ -570,7 +570,7 @@ class FootballLeaguesScreen extends Component {
   };
 
   componentDidMount() {
-    // this.getLeagues();
+    this.getLeagues();
   }
 
   static navigationOptions = navData => {
@@ -610,7 +610,7 @@ class FootballLeaguesScreen extends Component {
       .get(`https://api-football-v1.p.rapidapi.com/v2/leagues`, {
         headers: {
           "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
-          "x-rapidapi-key": basicKey
+          "x-rapidapi-key": agntKey
         }
       })
       .then(res => {
@@ -726,7 +726,7 @@ class FootballLeaguesScreen extends Component {
       <ScrollView style={styles.container}>
         {this.renderFavoriteLeagues()}
         {/* {this.renderDummyLeagues()} */}
-        {/* {this.renderLeagues()} */}
+        {this.renderLeagues()}
       </ScrollView>
     );
   }

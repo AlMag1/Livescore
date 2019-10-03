@@ -1943,7 +1943,7 @@ class MatchDetails extends Component {
     const leagueName = navigation.getParam("leagueName");
     const country = navigation.getParam("country");
     this.setState({ leagueName, country });
-    // this.getMatchDetails(matchId);
+    this.getMatchDetails(matchId);
     // this.getMatchDetails(214055);
   }
 
@@ -1952,7 +1952,7 @@ class MatchDetails extends Component {
       .get(`https://api-football-v1.p.rapidapi.com/v2/fixtures/id/${id}`, {
         headers: {
           "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
-          "x-rapidapi-key": basicKey
+          "x-rapidapi-key": agntKey
         }
       })
       .then(res =>
@@ -1972,8 +1972,8 @@ class MatchDetails extends Component {
       { element: this.chat }
     ];
     const { selectedIndex } = this.state;
-    return this.state.dummyMatch.length > 0 ? (
-      this.state.dummyMatch.map(match => (
+    return this.state.matchDetails.length > 0 ? (
+      this.state.matchDetails.map(match => (
         <View key={match.fixture_id} style={styles.container}>
           <View style={styles.innerTopContainer}>
             <View style={styles.leagueNameContainer}>
@@ -2061,7 +2061,7 @@ class MatchDetails extends Component {
               goalsAwayTeam={match.goalsAwayTeam}
               secondHalfStart={match.secondHalfStart}
               status={match.status}
-              matchDetails={this.state.dummyMatch}
+              matchDetails={this.state.matchDetails}
             />
           ) : null}
           {selectedIndex === 1 ? <Statistics stats={match.statistics} /> : null}
